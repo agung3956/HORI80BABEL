@@ -1,0 +1,158 @@
+# HORI 80 Kemenkeu Satu Kepulauan Bangka Belitung 2026
+
+Tema: Indonesia Berdaulat, APBN Kuat.
+
+## Hosting Netlify
+
+Repositori: https://github.com/agung3956/HORI80BABEL
+
+Konfigurasi `netlify.toml` memublikasikan folder `frontend` langsung, tanpa build command atau instalasi dependensi. Hubungkan branch `main` di Netlify agar setiap push otomatis memperbarui website. Folder `backend`, `tests`, dan arsip ZIP tidak masuk ke website publik.
+
+Folder lokal `.netlify` diabaikan oleh Git. Backend tetap dijalankan di Google Apps Script; Netlify hanya menghosting frontend. Isi `apiUrl` di `frontend/config.js` dengan URL deployment Google yang berakhir `/exec` setelah backend Google disiapkan.
+
+Paket ini menyediakan frontend statis, kode Google Apps Script yang terikat ke Google Sheets, setup tabel, panel admin, data jadwal awal, dan pengujian. Tidak ada hasil atau medali fiktif. Backend Google belum terhubung sampai Anda mengisi URL Web App.
+
+## Isi paket
+
+| Lokasi | Isi |
+| --- | --- |
+| frontend/ | Salin isi folder ke root GitHub Pages atau hosting statis Anda. |
+| backend/Code.gs | Setup, akses admin, validasi server, transaksi, dan endpoint publik. |
+| backend/Engine.gs | Aturan skor, bagan, medali, MLBB, dan fotografi. |
+| backend/Seed.gs | Unit, cabang, bagan, dan jadwal awal. |
+| backend/Admin.html | Panel Google Sheets siap digunakan. |
+| backend/appsscript.json | Runtime, zona waktu, dan cakupan izin. |
+| tests/hori.test.cjs | Pengujian logika aplikasi dan backend. |
+
+## 1. Buat Google Sheets
+
+1. Buat spreadsheet privat bernama HORI 80 Babel 2026.
+2. Buka Ekstensi > Apps Script.
+3. Salin Code.gs, Engine.gs, dan Seed.gs sebagai tiga file skrip terpisah. Hapus kode bawaan yang namanya bertabrakan.
+4. Tambahkan file HTML bernama Admin. Salin isi backend/Admin.html. Jangan menyalin Admin.template.html.
+5. Di pengaturan project, aktifkan tampilan appsscript.json. Ganti isinya dengan manifest paket.
+6. Jalankan setupHori dari editor dengan akun Google Anda. Selesaikan otorisasi.
+7. Setup mengisi ID spreadsheet dan ADMIN_EMAILS di Script Properties. Untuk admin tambahan, isi ADMIN_EMAILS dengan alamat akun Google dipisahkan koma. Berikan akses Editor ke spreadsheet hanya kepada pengelola.
+8. Muat ulang spreadsheet. Buka HORI 80 > Buka panel admin.
+
+setupHori aman dijalankan ulang. ID yang sudah ada dipertahankan. Setup menolak header tabel yang berbeda dan tidak menimpa data yang sudah ada. Jangan memakai spreadsheet publik sebagai database.
+
+## 2. Struktur tabel
+
+Setiap tabel memiliki ID, Revisi, Status, dan Data JSON. ID harus stabil. Kode tidak memakai nomor baris sebagai identitas. Edit data melalui panel admin agar validasi, audit, dan pembaruan cache berjalan.
+
+| Tab | Data |
+| --- | --- |
+| Pengaturan | Zona waktu, pengesahan metode klasemen, unit poin MLBB, skala fotografi, dan urutan partai. |
+| Unit Kerja | Nama institusi, singkatan, dan warna unit. |
+| Cabang dan Kategori | Ringkasan aturan, jenis lomba, kontribusi medali, dan catatan referensi. |
+| Peserta Anonim | Kode peserta/pasangan, unit, dan cabang. |
+| Jadwal | Jenis agenda, tanggal awal/akhir, lokasi, status, dan unit terkait. |
+| Pertandingan | Tim, sumber slot bagan, skor seri, partai, skor gim, WO, dan pengesahan. |
+| Grup | Susunan tim MLBB setelah technical meeting. |
+| Slot Bagan | Disediakan untuk pengembangan. Aplikasi saat ini memakai sourceA/sourceB di Pertandingan. |
+| Penilaian Karya | Kode juri, karya, lima nilai, skala, dan nilai akhir berbobot. |
+| Karya Publik | Kode karya dan peserta, unit, judul, deskripsi tersaring, izin publikasi, pemeriksaan metadata. |
+| Penalti | Grup, unit, alasan, nilai −1, dan pengesahan. |
+| Penetapan Juara | Cabang, kategori, juara I–III, unit, dan dasar hasil resmi. |
+| Riwayat Perubahan | ID operasi, akun admin, waktu, alasan, dan revisi. Tidak tersedia di endpoint publik. |
+| _Transaksi | Snapshot pemulihan operasi yang gagal. Tab disembunyikan, tidak tersedia di endpoint publik. |
+
+Skor partai dan gim disimpan di dalam record Pertandingan. Snapshot menyimpan tiap record terpisah. Audit dan backup tidak dikirim ke frontend. Spreadsheet tetap privat walaupun Web App menyediakan data publik yang telah disaring.
+
+## 3. Atur Google Drive
+
+1. Buat folder internal HORI 80 Babel. Simpan dokumen sumber, bukti hasil, dan naskah keputusan di sini. Batasi akses ke pengelola.
+2. Buat folder terpisah Aset Publik HORI 80. Isinya hanya logo, ringkasan aturan, dan foto yang telah memperoleh izin publikasi.
+3. Jangan membagikan workbook persiapan, daftar panitia, identitas, rekening, atau dokumen asli yang belum disaring.
+4. Untuk foto, hapus EXIF dan metadata yang mengungkap identitas. Pastikan foto final JPEG/JPG minimal 2 MB. Pertahankan orisinalitas karya sesuai keputusan panitia.
+5. Masukkan URL gambar HTTPS pada panel Karya fotografi. Gunakan URL yang benar-benar mengembalikan gambar. Tautan halaman Drive /view tidak mengembalikan gambar secara langsung. Jika menggunakan URL thumbnail Drive, pastikan file memiliki izin publik dan uji pemuatannya dari domain website. Folder bukti internal tidak perlu memiliki izin publik.
+6. Centang izin publikasi dan metadata bersih, lalu pilih Sahkan hasil untuk menampilkan karya di galeri. Belum ada foto peserta dalam data awal.
+
+Logo resmi dan font Figtree sudah disalin dari folder referensi pengguna ke frontend/assets. Aset dimuat dari hosting website agar pengunjung tidak bergantung pada halaman Drive.
+
+## 4. Deploy endpoint publik Apps Script
+
+1. Pada Apps Script, pilih Deploy > New deployment > Web app.
+2. Pilih Execute as: Me. Pilih Who has access: Anyone jika kebijakan akun mengizinkan data lomba publik.
+3. Endpoint ini hanya membaca data yang disaring. Tidak ada doPost atau rute menulis. Panel admin tetap dibuka dari Google Sheets dengan akun admin, melalui google.script.run.
+4. Salin URL yang berakhir /exec. Jangan gunakan URL /dev atau halaman editor.
+5. Isi apiUrl di frontend/config.js. Contoh:
+
+```js
+window.HORI_CONFIG = {
+  apiUrl: 'https://script.google.com/macros/s/ISI_DEPLOYMENT_ID/exec',
+  transport: 'jsonp',
+  refreshSeconds: 120
+};
+```
+
+6. Deploy ulang frontend. Pengunjung tetap berada pada alamat website utama.
+7. Buka URL /exec untuk memeriksa respons JSON. Dari domain frontend yang sebenarnya, tekan Muat ulang. Pastikan waktu pembaruan muncul setelah pengelola menyimpan data.
+8. Ketika kode Apps Script berubah, pilih Manage deployments > Edit > New version. Mengedit kode saja tidak memperbarui Web App yang sudah dideploy.
+
+JSONP dipakai untuk pembacaan publik lintas domain. Callback harus mengikuti pola horiCallback + angka. Jangan memakai JSONP untuk data privat, operasi tulis, atau autentikasi. Transport fetch tersedia jika koneksi lintas domain sudah diuji berhasil. Kebijakan akun atau domain bisa membatasi Web App anonim. Jika akses publik tidak diizinkan, gunakan akun/deployment yang diizinkan panitia, tanpa membuka spreadsheet internal.
+
+## 5. Jalankan pertandingan
+
+1. Pada Pengaturan pengesahan, sahkan metode klasemen, urutan partai tenis meja, dan ketentuan deuce sesuai keputusan panitia.
+2. Pada Cabang & kontribusi medali, konfirmasi cabang yang menyumbang medali. Fotografi dan Gobak sodor / Voli pantai awalnya belum diaktifkan. Panahan dan voli ekshibisi tidak masuk medali.
+3. Pilih Pertandingan & skor. Pilih pertandingan. Simpan skor sebagai draft. Draft tidak menampilkan skor di website.
+4. Untuk tenis meja dan bulutangkis, masukkan skor gim tiap partai. Format contoh: 11-5, 11-8, 11-9. Tandai partai ketiga Tidak dimainkan setelah tim menang 2–0. Jangan memasukkan 0–0.
+5. Pilih pemenang dan Sahkan hasil. Server memeriksa skor, peserta, urutan partai, dan hasil babak sebelumnya.
+6. Setelah final dan perebutan juara III disahkan, input Penetapan juara. Kode kategori: tenis meja dan bulutangkis = beregu, tenis lapangan = ganda, MLBB = tim, fotografi = utama.
+7. Kemenangan babak awal atau semifinal tidak langsung memberikan medali. Server menolak kategori partai ganda putra/ganda campuran sebagai medali terpisah untuk lomba beregu.
+8. Untuk hasil yang salah, pilih Koreksi dan isi alasan. Koreksi menyimpan draft. Periksa peserta dan skor sebelum Sahkan hasil lagi. Pertandingan lanjutan dan penetapan juara yang terdampak dicabut dan ditandai untuk diperiksa.
+9. Batalkan pengesahan menghapus hasil dari publik, mempertahankan draft dan audit untuk admin.
+
+Kode tim pada semifinal/final mengikuti pemenang atau yang kalah dari pertandingan sumber. Bye sudah sesuai spesifikasi dan berbeda antara tenis meja dan bulutangkis. Jangan mengganti sumber slot tanpa keputusan pengundian resmi.
+
+## 6. MLBB
+
+1. Masukkan grup yang benar dari technical meeting. Belum ada pembagian grup fiktif.
+2. Konfirmasi unit poin match atau game dan rumus persentase sebelum mengesahkan klasemen grup.
+3. Buat pertandingan dengan Babak: Grup, Upper bracket, Lower bracket, Grand final, atau Juara III. Grup membutuhkan groupId dan tim yang memang termasuk grup.
+4. Skor seri normal BO3, grand final BO5. Menang WO disimpan tanpa skor gim. Poin WO +1 sesuai konfigurasi implementasi awal dari handbook.
+5. Input penalti melalui menu terpisah. Alasan chat all/radio all atau Nickname berbeda, nilai −1. Penalti berlaku setelah disahkan.
+6. Head-to-head untuk dua tim dengan poin dan persentase sama. Seri banyak tim atau head-to-head yang masih sama ditandai belum selesai. Panitia perlu menetapkan hasil seri melalui keputusan lanjutan. Aplikasi tidak mengarang peringkat seri.
+7. Penempatan tim playoff, hasil pengundian, detail reset grand final, dan mekanisme perebutan juara III menunggu keputusan panitia. Buat sumber slot bagan melalui Sumber slot tim A/B setelah keputusan tersedia.
+
+## 7. Fotografi
+
+Tetapkan skala nilai terlebih dahulu, misalnya 0–100 sesuai keputusan panitia. Input lima nilai dalam rentang skala. Nilai akhir = nilai/skala × bobot, dengan bobot 30%, 25%, 20%, 15%, 10%. Hasil dinormalisasi ke 100. Skala tidak bisa diubah saat masih ada penilaian resmi.
+
+Panel mendukung beberapa kode juri anonim. Setiap record menyimpan nilai satu juri. Agregasi antarkode juri, tata cara menangani seri, dan urutan juara mengikuti keputusan panitia. Admin mengesahkan juara berdasarkan hasil penjurian resmi. Aplikasi tidak mengarang pemenang. Koreksi atau pembatalan penilaian mencabut penetapan juara terkait karya.
+
+## 8. Referensi dan perbedaan sumber
+
+Data jadwal dan aturan awal berasal dari Pasted markdown(1).md yang diunggah pengguna. Dokumen lomba asli yang disebut di dalamnya belum diverifikasi ulang dalam pembuatan ini. Panitia perlu memeriksa data sebelum dipakai sebagai jadwal final. Referensi desain telah dibaca langsung dari folder Google Drive.
+
+| Sumber | Perbedaan / tindak lanjut |
+| --- | --- |
+| Pedoman visual HORI 80 | Tema tertulis APBN Kuat, Indonesia Berdaulat. Tampilan memakai arahan terbaru pengguna: Indonesia Berdaulat, APBN Kuat. |
+| MLBB | Handbook sampai 25 Oktober, 23.59 WIB. Excel sampai 23 Oktober, 23.00. Acuan awal mengikuti handbook menurut spesifikasi pengguna. |
+| Fotografi | KAK: pengumuman 30 Oktober. Poster: akan diinformasikan kemudian. |
+| Tenis meja | Urutan setelah ganda putra dan aturan deuce perlu konfirmasi. |
+| Bulutangkis | Ketentuan deuce perlu konfirmasi. |
+| Gobak sodor / Voli pantai | Belum diputuskan satu atau dua cabang. |
+| Juara umum | Metode dan kontribusi cabang menunggu pengesahan panitia. |
+
+Pedoman: https://drive.google.com/file/d/1K3KKMsEye1R53tmpjEqZ259kphqQzUaQ/view
+
+Folder referensi: https://drive.google.com/drive/folders/1xUmOg824XEiPEs5xPYirZ0XR87F4-dWJ
+
+Dokumentasi Google untuk pengelola:
+
+- https://developers.google.com/apps-script/guides/content
+- https://developers.google.com/apps-script/guides/html/communication
+- https://developers.google.com/apps-script/reference/base/session
+
+## 9. Verifikasi
+
+Jalankan node --test tests/hori.test.cjs pada checkout sumber. Dalam paket unduhan, tests mencari folder frontend melalui penyesuaian jalur yang sudah disertakan.
+
+Pengujian logika menggunakan implementasi nyata serta mock layanan Google. Pengujian mencakup validasi skor, koreksi dan pembatalan, ACL, idempotensi, revisi, rollback, JSONP, dan penyaringan data. Pengujian ini tidak menggantikan pengujian akun Google, kebijakan deployment, maupun koneksi dari domain hosting sebenarnya.
+
+Belum ada pengujian browser visual karena fasilitas browser QA yang didukung tidak tersedia dalam sesi pembuatan. Frontend, JavaScript, HTML, dan logika backend menjalani pemeriksaan statis dan pengujian otomatis. Lakukan uji ponsel nyata sebelum penggunaan acara.
+
+Uji akhir setelah Google tersambung: simpan draft, pastikan skor belum tampil, sahkan hasil, tekan Muat ulang di website, koreksi hasil, periksa bagan lanjutan, batalkan pengesahan, dan periksa medali berubah. Uji dua akun admin untuk konflik revisi. Jangan memakai hasil uji fiktif pada deployment acara.

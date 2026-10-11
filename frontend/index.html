@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0061AF">
+  <meta name="description" content="Jadwal, klasemen, bagan turnamen, dan hasil resmi HORI 80 Kemenkeu Satu Kepulauan Bangka Belitung 2026. Indonesia Berdaulat, APBN Kuat.">
+  <title>HORI 80 · Kemenkeu Satu Babel</title>
+  <link rel="icon" href="assets/hori-logo-source.png"><link rel="stylesheet" href="styles.css">
+  <script defer src="seed.js"></script><script defer src="engine.js"></script><script defer src="config.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Langsung ke konten</a>
+  <aside class="sidebar">
+    <a class="brand" href="#beranda"><img src="assets/hori-logo-source.png" alt="Logo resmi Hari Oeang ke-80"><span>HORI <b>80</b><small>KEMENKEU SATU BABEL</small></span></a>
+    <div class="nav-label">PUSAT PERLOMBAAN</div>
+    <nav aria-label="Navigasi utama" id="nav"></nav>
+    <div class="sidebar-bottom"><span class="region-dot"></span>Kepulauan<br><b>Bangka Belitung</b><small>Hari Oeang Republik Indonesia<br>2026</small></div>
+  </aside>
+  <div class="shell">
+    <header class="topbar"><span class="top-title">Kemenkeu Satu <b>•</b> Kepulauan Bangka Belitung</span><span class="top-year">PERINGATAN KE-80 <b>2026</b></span></header>
+    <main id="main" tabindex="-1"><div id="app" aria-live="polite"></div></main>
+    <footer><span>HORI 80 <b>·</b> Indonesia Berdaulat, APBN Kuat</span><button id="refresh" class="refresh">↻ Muat ulang</button><small id="sync"></small></footer>
+  </div>
+  <dialog id="match-dialog"><div id="match-content"></div><button id="close-dialog" class="button">Tutup</button></dialog>
+  <div id="toast" role="status"></div>
+</body>
+</html>
