@@ -10,6 +10,16 @@ Konfigurasi `netlify.toml` memublikasikan folder `frontend` langsung, tanpa buil
 
 Folder lokal `.netlify` diabaikan oleh Git. Backend tetap dijalankan di Google Apps Script; Netlify hanya menghosting frontend. Isi `apiUrl` di `frontend/config.js` dengan URL deployment Google yang berakhir `/exec` setelah backend Google disiapkan.
 
+## Pembaruan konten 12 Oktober 2026
+
+- Daftar unit ditambah KPP Tanjung Pandan (DJP), KPPBC Tanjung Pandan (DJBC), dan KPPN Tanjung Pandan (DJPb). ID unit lama dipertahankan. KPPBC Pangkalpinang memakai label DJBC dan KPPN Pangkalpinang memakai label DJPb.
+- Lima PDF asli tersedia di `frontend/handbooks`: MLBB, tenis lapangan, fotografi, tenis meja, dan bulutangkis. Ringkasan aturan telah dicocokkan dengan dokumen tersebut. Tautan dokumen tersedia di halaman cabor dan menu Aturan.
+- Nota dinas ND-1077/KPP.0306/2026 menjadi sumber waktu technical meeting MLBB 9 Oktober, 16.00–17.00 WIB. `frontend/handbooks/informasi-mlbb.html` menyediakan ringkasan untuk publik; akses rapat disampaikan oleh panitia.
+- Beranda memuat informasi kick off dari postingan @djpbbabel yang dipublikasikan 9 Oktober 2026: https://www.instagram.com/p/DeRR1KwHyo_/?img_index=2. Foto ditampilkan melalui sematan resmi Instagram dengan tautan ke postingan asli. Tanggal tersebut adalah tanggal publikasi, bukan penetapan tanggal kegiatan.
+- `frontend/content.js` menyimpan referensi dokumen dan informasi kick off, sehingga konten ini tetap tersedia saat data pertandingan dimuat dari Google.
+
+Seed backend juga diperbarui untuk setup Google berikutnya. `setupHori` menambahkan ID baru tetapi mempertahankan record yang sudah ada; pengelola Google yang sudah menjalankan setup perlu memperbarui label dan ringkasan lama melalui panel admin.
+
 Paket ini menyediakan frontend statis, kode Google Apps Script yang terikat ke Google Sheets, setup tabel, panel admin, data jadwal awal, dan pengujian. Tidak ada hasil atau medali fiktif. Backend Google belum terhubung sampai Anda mengisi URL Web App.
 
 ## Isi paket
@@ -125,7 +135,7 @@ Panel mendukung beberapa kode juri anonim. Setiap record menyimpan nilai satu ju
 
 ## 8. Referensi dan perbedaan sumber
 
-Data jadwal dan aturan awal berasal dari Pasted markdown(1).md yang diunggah pengguna. Dokumen lomba asli yang disebut di dalamnya belum diverifikasi ulang dalam pembuatan ini. Panitia perlu memeriksa data sebelum dipakai sebagai jadwal final. Referensi desain telah dibaca langsung dari folder Google Drive.
+Data jadwal awal berasal dari Pasted markdown(1).md yang diunggah pengguna. Ringkasan lima cabor telah dicocokkan dengan handbook dan ketentuan PDF yang diberikan pada pembaruan 12 Oktober 2026. Perubahan jadwal serta ketentuan yang belum ditegaskan tetap mengikuti pengesahan panitia. Referensi desain telah dibaca langsung dari folder Google Drive.
 
 | Sumber | Perbedaan / tindak lanjut |
 | --- | --- |
@@ -153,6 +163,6 @@ Jalankan node --test tests/hori.test.cjs pada checkout sumber. Dalam paket unduh
 
 Pengujian logika menggunakan implementasi nyata serta mock layanan Google. Pengujian mencakup validasi skor, koreksi dan pembatalan, ACL, idempotensi, revisi, rollback, JSONP, dan penyaringan data. Pengujian ini tidak menggantikan pengujian akun Google, kebijakan deployment, maupun koneksi dari domain hosting sebenarnya.
 
-Belum ada pengujian browser visual karena fasilitas browser QA yang didukung tidak tersedia dalam sesi pembuatan. Frontend, JavaScript, HTML, dan logika backend menjalani pemeriksaan statis dan pengujian otomatis. Lakukan uji ponsel nyata sebelum penggunaan acara.
+Frontend, JavaScript, HTML, dan logika backend menjalani pemeriksaan statis dan pengujian otomatis. Pada pembaruan 12 Oktober 2026, tampilan beranda, sembilan unit, sematan Instagram, dan tautan dokumen diperiksa melalui browser pada ukuran desktop dan ponsel. Lakukan uji ponsel nyata sebelum penggunaan acara.
 
 Uji akhir setelah Google tersambung: simpan draft, pastikan skor belum tampil, sahkan hasil, tekan Muat ulang di website, koreksi hasil, periksa bagan lanjutan, batalkan pengesahan, dan periksa medali berubah. Uji dua akun admin untuk konflik revisi. Jangan memakai hasil uji fiktif pada deployment acara.

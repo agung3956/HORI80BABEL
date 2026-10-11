@@ -44,7 +44,7 @@ test('Galeri membutuhkan izin, metadata bersih, JPG 2 MB dan maksimal tiga karya
 test('Semua rute frontend menghasilkan markup dan placeholder resmi',()=>{
  const elements=new Map();function el(id){if(!elements.has(id))elements.set(id,{innerHTML:'',textContent:'',value:'',disabled:false,addEventListener(){},classList:{add(){},remove(){},toggle(){}},showModal(){},close(){}});return elements.get(id);}
  const ctx=vm.createContext({Date,URL,JSON,Set,Map,Number,Math,structuredClone,location:{hash:''},document:{getElementById:el,querySelectorAll:()=>[],addEventListener(){},title:'',hidden:false},setTimeout(){},setInterval(){}});ctx.window=ctx;ctx.addEventListener=()=>{};ctx.scrollTo=()=>{};
- for(const name of ['seed.js','engine.js','config.js','app.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'../frontend',name),'utf8'),ctx,{filename:name});
+ for(const name of ['seed.js','engine.js','config.js','content.js','app.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'../frontend',name),'utf8'),ctx,{filename:name});
  for(const route of ['beranda','klasemen','cabang','jadwal','hasil','aturan','cabang/tenis-meja','cabang/bulutangkis','cabang/tenis-lapangan','cabang/mlbb','cabang/fotografi']){ctx.location.hash='#'+route;vm.runInContext('render()',ctx);assert.ok(el('app').innerHTML.length>500,route);assert.ok(!el('app').innerHTML.includes('undefined'),route);}
 ctx.location.hash='#hasil';vm.runInContext('render()',ctx);assert.ok(el('app').innerHTML.includes('Belum ada hasil resmi'));ctx.location.hash='#cabang/tenis-meja';vm.runInContext('render()',ctx);assert.ok(el('app').innerHTML.includes('Kanwil DJPb & KPPN Pangkalpinang'));
 });
