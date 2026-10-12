@@ -47,6 +47,7 @@ event('FOTO-JUDGE','fotografi','Penjurian fotografi','Penjurian','2026-10-27','2
 event('FOTO-ANNOUNCE','fotografi','Pengumuman pemenang fotografi','Pengumuman','2026-10-30',null,null,'Tanggal acuan KAK, dapat diperbarui panitia.',true);
 [14,16,19,21,23].forEach(d=>event('VOLI-'+d,'voli','Pertandingan bola voli','Pertandingan','2026-10-'+d,null,null,'Jam dan lokasi menunggu panitia.',true));
 event('CATUR','catur','Catur online','Pertandingan','2026-10-23T08:00:00+07:00','2026-10-23T11:00:00+07:00','Online');
+event('TM-GOB-VOL','gobak-voli-pantai','Technical meeting Gobak Sodor & Voli Pantai','Technical meeting','2026-10-13T14:00:00+07:00',null,null,'Lokasi akan diinformasikan panitia.');
 event('GOB-VOL','gobak-voli-pantai','Gobak sodor / Voli pantai','Pertandingan','2026-10-24T07:00:00+07:00','2026-10-24T11:00:00+07:00','Pantai Temberan');
 const data={settings:{title:'HORI 80',theme:'Indonesia Berdaulat, APBN Kuat',timezone:'Asia/Jakarta',standingsConfirmed:false,rankingMethod:'medals',mlPointsUnit:'unconfirmed',mlPercentFormula:'gameWins / (gameWins + gameLosses) × 100',mlConfirmed:false,photoScale:null,tennisTableDeuce:false,badmintonDeuce:false,tableOrderConfirmed:false,tablePartOrder:['Ganda putra','Ganda campuran','Ganda putri'],updatedAt:null,revision:0},units,sports,matches,schedule,awards:[],penalties:[],works:[],groups:[],participants:[],bracketSlots:[],judging:[]};
 root.HORI_SEED=data;if(typeof module==='object'&&module.exports)module.exports=data;

@@ -51,6 +51,21 @@
     "sportId": "tenis-meja"
   }
 ];
-  root.HORI_CONTENT = { handbooks, kickoff, posters };
+  posters.push({path: 'assets/posters/tm-gobak-sodor-voli-pantai.png', title: 'Technical meeting Gobak Sodor & Voli Pantai', sportId: 'gobak-voli-pantai'});
+  // Poster panitia yang belum tercatat pada deployment Google saat ini.
+  // Record Google dengan ID yang sama tetap menjadi acuan untuk koreksi/status.
+  const scheduleExtras = [{
+    id: 'TM-GOB-VOL', sportId: 'gobak-voli-pantai',
+    title: 'Technical meeting Gobak Sodor & Voli Pantai', type: 'Technical meeting',
+    date: '2026-10-13T14:00:00+07:00', endDate: null, allDay: false,
+    location: 'Menunggu informasi', note: 'Lokasi akan diinformasikan panitia.',
+    status: 'Terjadwal', unitIds: [], revision: 0,
+    poster: 'assets/posters/tm-gobak-sodor-voli-pantai.png'
+  }];
+  function withSchedule(payload) {
+    const existing = new Set(payload.schedule.map(event => event.id));
+    return {...payload, schedule: [...payload.schedule, ...scheduleExtras.filter(event => !existing.has(event.id)).map(event => ({...event, unitIds: [...event.unitIds]}))]};
+  }
+  root.HORI_CONTENT = { handbooks, kickoff, posters, scheduleExtras, withSchedule };
   if (typeof module === 'object' && module.exports) module.exports = root.HORI_CONTENT;
 })(typeof window === 'undefined' ? globalThis : window);

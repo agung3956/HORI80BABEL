@@ -16,6 +16,10 @@ Endpoint publik hanya membaca hasil yang disaring. Tidak ada doPost; operasi adm
 
 `frontend/config.js` sudah memakai URL Web App yang diberikan pengguna pada 12 Oktober 2026. Pembacaan anonim JSON dan JSONP telah diperiksa: 9 unit, 9 cabor, 12 pertandingan, dan 33 agenda. Menu Admin membuka halaman Apps Script dengan filter cabang melalui parameter `sport`. Login memerlukan kunci yang dibuat pengelola dari menu HORI 80 di Google Sheets.
 
+## Technical meeting Gobak Sodor & Voli Pantai
+
+Poster pengguna ditambahkan ke slideshow (total tujuh poster), kartu informasi beranda, dan halaman cabor. Technical meeting: Selasa, 13 Oktober 2026 pukul 14.00 WIB; lokasi belum tercantum pada poster. Agenda ID `TM-GOB-VOL` tersedia pada jadwal website dan seed backend. `content.js` melengkapi agenda ini bila endpoint Google lama belum memuatnya; bila Google memuat ID yang sama, koreksi tanggal, lokasi dan status admin dipertahankan tanpa duplikasi. Paket GS telah dihasilkan ulang untuk setup berikutnya; penayangan informasi di website tidak memerlukan redeploy Apps Script.
+
 ## Hosting Netlify
 
 Repositori: https://github.com/agung3956/HORI80BABEL
