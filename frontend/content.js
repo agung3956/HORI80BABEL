@@ -19,6 +19,38 @@
     sourceUrl: 'https://www.instagram.com/p/DeRR1KwHyo_/?img_index=2',
     embedUrl: 'https://www.instagram.com/p/DeRR1KwHyo_/embed/'
   };
-  root.HORI_CONTENT = { handbooks, kickoff };
+  const posters = [
+  {
+    "path": "assets/posters/turnamen-tenis.png",
+    "title": "Turnamen tenis HORI 2026",
+    "sportId": "tenis-lapangan"
+  },
+  {
+    "path": "assets/posters/jadwal-tenis-meja.png",
+    "title": "Jadwal pertandingan tenis meja",
+    "sportId": "tenis-meja"
+  },
+  {
+    "path": "assets/posters/lomba-fotografi.jpg",
+    "title": "Lomba fotografi HORI ke-80",
+    "sportId": "fotografi"
+  },
+  {
+    "path": "assets/posters/kickoff-hori.jpg",
+    "title": "Kick off Hari Oeang ke-80",
+    "sportId": ""
+  },
+  {
+    "path": "assets/posters/tm-bulutangkis.jpg",
+    "title": "Technical meeting bulutangkis",
+    "sportId": "bulutangkis"
+  },
+  {
+    "path": "assets/posters/tm-tenis-meja.jpg",
+    "title": "Technical meeting tenis meja",
+    "sportId": "tenis-meja"
+  }
+];
+  root.HORI_CONTENT = { handbooks, kickoff, posters };
   if (typeof module === 'object' && module.exports) module.exports = root.HORI_CONTENT;
 })(typeof window === 'undefined' ? globalThis : window);
