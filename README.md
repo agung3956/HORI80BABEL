@@ -12,6 +12,10 @@ Paket siap tempel: `backend/HORI80Babel-Code.gs`. Lihat [panduan pemasangan](PAN
 
 Endpoint publik hanya membaca hasil yang disaring. Tidak ada doPost; operasi admin memakai google.script.run dengan pemeriksaan token/akun. Kunci dan sesi tidak disertakan pada respons publik.
 
+## Koneksi backend Google aktif
+
+`frontend/config.js` sudah memakai URL Web App yang diberikan pengguna pada 12 Oktober 2026. Pembacaan anonim JSON dan JSONP telah diperiksa: 9 unit, 9 cabor, 12 pertandingan, dan 33 agenda. Menu Admin membuka halaman Apps Script dengan filter cabang melalui parameter `sport`. Login memerlukan kunci yang dibuat pengelola dari menu HORI 80 di Google Sheets.
+
 ## Hosting Netlify
 
 Repositori: https://github.com/agung3956/HORI80BABEL

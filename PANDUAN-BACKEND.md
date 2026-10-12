@@ -16,4 +16,4 @@ Jika Apps Script memakai `oauthScopes` eksplisit dalam appsscript.json, tambahka
 
 Validasi skor dan aturan cabor tetap memakai mesin sebelumnya. Koreksi hasil resmi wajib beralasan dan mencabut hasil lanjutan yang terdampak. Foto poster merupakan konten slideshow, tidak otomatis mengubah ketentuan pertandingan dari handbook.
 
-Backend Google belum terpasang hingga Anda menjalankan langkah di atas. Pengujian lokal menggunakan mock layanan Google; uji penyimpanan Google yang sesungguhnya dilakukan setelah deployment Anda tersedia.
+URL deployment pengguna sudah tersambung ke frontend pada 12 Oktober 2026. Pembacaan publik dan halaman login diperiksa dari browser. Pengujian lokal penyimpanan menggunakan mock layanan Google; penyimpanan hasil nyata dilakukan oleh pengelola setelah masuk dengan kunci admin.
