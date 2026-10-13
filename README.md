@@ -2,6 +2,24 @@
 
 Tema: Indonesia Berdaulat, APBN Kuat.
 
+## Slideshow dan admin web (12 Oktober 2026)
+
+Enam poster pengguna tampil utuh pada beranda dengan tombol sebelumnya/berikutnya, jeda, pemilih poster, dan dialog ukuran penuh. Slideshow berhenti saat fokus/hover, tab tersembunyi, atau preferensi reduced motion aktif.
+
+Menu Admin memuat akses Google Sheets dan Drive serta panel per cabor. Setelah apiUrl dipasang, panel web Apps Script dapat dibuka langsung dengan filter cabang. Admin web menggunakan kunci acak 256 bit yang dibuat dari menu Sheets; sesi 30 menit diverifikasi di server untuk setiap baca/tulis. Audit web memakai aktor web-admin; untuk audit per akun gunakan panel Sheets dengan ADMIN_EMAILS.
+
+Paket siap tempel: `backend/HORI80Babel-Code.gs`. Lihat [panduan pemasangan](PANDUAN-BACKEND.md). ID spreadsheet dan folder mengikuti tautan pengguna. Untuk pemeliharaan, edit file sumber backend lalu jalankan `node build-backend.cjs`; paket dan AdminUi.gs dihasilkan ulang dari sumber.
+
+Endpoint publik hanya membaca hasil yang disaring. Tidak ada doPost; operasi admin memakai google.script.run dengan pemeriksaan token/akun. Kunci dan sesi tidak disertakan pada respons publik.
+
+## Koneksi backend Google aktif
+
+`frontend/config.js` sudah memakai URL Web App yang diberikan pengguna pada 12 Oktober 2026. Pembacaan anonim JSON dan JSONP telah diperiksa: 9 unit, 9 cabor, 12 pertandingan, dan 33 agenda. Menu Admin membuka halaman Apps Script dengan filter cabang melalui parameter `sport`. Login memerlukan kunci yang dibuat pengelola dari menu HORI 80 di Google Sheets.
+
+## Technical meeting Gobak Sodor & Voli Pantai
+
+Poster pengguna ditambahkan ke slideshow (total tujuh poster), kartu informasi beranda, dan halaman cabor. Technical meeting: Selasa, 13 Oktober 2026 pukul 14.00 WIB; lokasi belum tercantum pada poster. Agenda ID `TM-GOB-VOL` tersedia pada jadwal website dan seed backend. `content.js` melengkapi agenda ini bila endpoint Google lama belum memuatnya; bila Google memuat ID yang sama, koreksi tanggal, lokasi dan status admin dipertahankan tanpa duplikasi. Paket GS telah dihasilkan ulang untuk setup berikutnya; penayangan informasi di website tidak memerlukan redeploy Apps Script.
+
 ## Hosting Netlify
 
 Repositori: https://github.com/agung3956/HORI80BABEL
@@ -85,7 +103,7 @@ Logo resmi dan font Figtree sudah disalin dari folder referensi pengguna ke fron
 
 1. Pada Apps Script, pilih Deploy > New deployment > Web app.
 2. Pilih Execute as: Me. Pilih Who has access: Anyone jika kebijakan akun mengizinkan data lomba publik.
-3. Endpoint ini hanya membaca data yang disaring. Tidak ada doPost atau rute menulis. Panel admin tetap dibuka dari Google Sheets dengan akun admin, melalui google.script.run.
+3. Endpoint ini hanya membaca data yang disaring. Tidak ada doPost. Panel admin memakai google.script.run: panel Sheets memeriksa akun Google, panel web memeriksa sesi dari kunci admin.
 4. Salin URL yang berakhir /exec. Jangan gunakan URL /dev atau halaman editor.
 5. Isi apiUrl di frontend/config.js. Contoh:
 

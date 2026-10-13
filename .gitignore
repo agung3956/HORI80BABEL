@@ -4,3 +4,10 @@ node_modules/
 .env.*
 !.env.example
 *.log
+tmp-*.png
+qa-local/
+update-hori.py
+update-backend.py
+finish-hori.py
+qa-hori.cjs
+fix-qa.py

@@ -1,16 +1,42 @@
 /** HORI 80. Bound Google Sheets script, V8 runtime. Public doGet is read-only. */
 var TABLES_={units:'Unit Kerja',sports:'Cabang dan Kategori',participants:'Peserta Anonim',schedule:'Jadwal',matches:'Pertandingan',groups:'Grup',bracketSlots:'Slot Bagan',judging:'Penilaian Karya',works:'Karya Publik',penalties:'Penalti',awards:'Penetapan Juara'};
 var HEADER_=['ID','Revisi','Status','Data JSON'];
-function onOpen(){SpreadsheetApp.getUi().createMenu('HORI 80').addItem('Buka panel admin','openAdmin').addItem('Setup awal / lengkapi tabel','setupHori').addToUi();}
+function onOpen(){SpreadsheetApp.getUi().createMenu('HORI 80').addItem('Buka panel admin','openAdmin').addItem('Setup awal / lengkapi tabel','setupHori').addItem('Buat / ganti kunci admin web','resetAdminAccessKey').addToUi();}
 function props_(){return PropertiesService.getScriptProperties();}
-function assertAdmin_(){var email=Session.getActiveUser().getEmail().toLowerCase();var admins=(props_().getProperty('ADMIN_EMAILS')||'').toLowerCase().split(',').map(function(x){return x.trim();});if(!email||admins.indexOf(email)<0)throw Error('Akses ditolak. Gunakan akun Google admin yang terdaftar.');return email;}
+function assertGoogleAdmin_(){var email=Session.getActiveUser().getEmail().toLowerCase();var admins=(props_().getProperty('ADMIN_EMAILS')||'').toLowerCase().split(',').map(function(x){return x.trim();});if(!email||admins.indexOf(email)<0)throw Error('Akses ditolak. Gunakan akun Google admin yang terdaftar.');return email;}
+// Token web disimpan hanya dalam memori panel; endpoint publik tetap read-only.
+function sha256_(value){return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,value,Utilities.Charset.UTF_8).map(function(b){return ('0'+((b+256)%256).toString(16)).slice(-2);}).join('');}
+function assertAdmin_(token){
+ if(token!==undefined&&token!==null){
+  if(typeof token!=='string'||!/^[a-f0-9]{64}$/.test(token))throw Error('Sesi admin tidak valid. Silakan masuk kembali.');
+  var session=CacheService.getScriptCache().get('admin-'+sha256_(token));
+  if(!session||session!==props_().getProperty('ADMIN_ACCESS_HASH'))throw Error('Sesi admin berakhir. Silakan masuk kembali.');
+  return 'web-admin';
+ }
+ return assertGoogleAdmin_();
+}
+function resetAdminAccessKey(){
+ assertGoogleAdmin_();var key=(Utilities.getUuid()+Utilities.getUuid()).replace(/-/g,'');props_().setProperty('ADMIN_ACCESS_HASH',sha256_(key));
+ SpreadsheetApp.getUi().alert('Kunci akses admin baru (simpan secara privat):\n'+key+'\n\nSesi web lama telah dicabut. Jangan masukkan kunci ke config.js atau URL.');
+}
+function adminLogin(key){
+ if(typeof key!=='string'||!/^[a-f0-9]{64}$/.test(key.trim()))throw Error('Kunci akses admin tidak sesuai.');
+ var expected=props_().getProperty('ADMIN_ACCESS_HASH');if(!expected||sha256_(key.trim())!==expected)throw Error('Kunci akses admin tidak sesuai.');
+ var token=(Utilities.getUuid()+Utilities.getUuid()).replace(/-/g,'');CacheService.getScriptCache().put('admin-'+sha256_(token),expected,1800);return {token:token,expiresIn:1800};
+}
+function adminLogout(token){assertAdmin_(token);CacheService.getScriptCache().remove('admin-'+sha256_(token));return true;}
+function adminDriveImages(token){
+ assertAdmin_(token);var files=DriveApp.getFolderById(props_().getProperty('DRIVE_FOLDER_ID')||'1mkG9C5rfiF6XxoQWmceu4zvuf37y5WBj').getFiles(),out=[];
+ while(files.hasNext()&&out.length<100){var f=files.next();if(!/^image\/(jpeg|jpg|png)$/.test(f.getMimeType()))continue;var sharing=f.getSharingAccess();out.push({id:f.getId(),name:f.getName(),mimeType:f.getMimeType(),sizeBytes:f.getSize(),public:sharing===DriveApp.Access.ANYONE||sharing===DriveApp.Access.ANYONE_WITH_LINK,imageUrl:'https://drive.google.com/thumbnail?id='+encodeURIComponent(f.getId())+'&sz=w1600'});}
+ return out;
+}
 function book_(){var id=props_().getProperty('SPREADSHEET_ID');if(!id)throw Error('Jalankan setupHori di Google Sheets dahulu.');return SpreadsheetApp.openById(id);}
-function openAdmin(){assertAdmin_();SpreadsheetApp.getUi().showSidebar(HtmlService.createHtmlOutputFromFile('Admin').setTitle('Admin HORI 80'));}
+function openAdmin(){assertAdmin_();SpreadsheetApp.getUi().showSidebar(HtmlService.createHtmlOutput(adminHtml_()).setTitle('Admin HORI 80'));}
 function setupHori(){
  var p=props_(),email=Session.getActiveUser().getEmail().toLowerCase();if(!email)throw Error('Jalankan setup dari editor dengan akun Google Anda.');
  if(p.getProperty('ADMIN_EMAILS'))assertAdmin_();else p.setProperty('ADMIN_EMAILS',email);
  var lock=LockService.getScriptLock();lock.waitLock(30000);
- try{var ss=SpreadsheetApp.getActiveSpreadsheet();if(!ss)throw Error('Gunakan script yang terikat pada Google Sheets.');if(p.getProperty('SPREADSHEET_ID')&&p.getProperty('SPREADSHEET_ID')!==ss.getId())throw Error('Script sudah terikat pada spreadsheet berbeda.');p.setProperty('SPREADSHEET_ID',ss.getId());ss.setSpreadsheetTimeZone('Asia/Jakarta');
+ try{var ss=SpreadsheetApp.getActiveSpreadsheet();if(ss&&ss.getId()!=='1SrMwx_C2RS7Le3P53pzqDKgKUBIPbJPjj8MJiomk90g')throw Error('Buka Apps Script dari spreadsheet HORI80Babel yang ditentukan.');if(!ss)throw Error('Gunakan script yang terikat pada Google Sheets.');if(p.getProperty('SPREADSHEET_ID')&&p.getProperty('SPREADSHEET_ID')!==ss.getId())throw Error('Script sudah terikat pada spreadsheet berbeda.');p.setProperty('SPREADSHEET_ID',ss.getId());p.setProperty('DRIVE_FOLDER_ID','1mkG9C5rfiF6XxoQWmceu4zvuf37y5WBj');ss.setSpreadsheetTimeZone('Asia/Jakarta');
   Object.keys(TABLES_).forEach(function(key){ensureSheet_(TABLES_[key]);});ensureSheet_('Pengaturan');ensureSheet_('Riwayat Perubahan');ensureSheet_('_Transaksi');
   if(p.getProperty('PENDING_TX'))recover_();var seed=seedData_();
   Object.keys(TABLES_).forEach(function(k){var sh=ss.getSheetByName(TABLES_[k]);var present=readRows_(sh),ids=new Set(present.map(function(x){return x.id;}));seed[k].forEach(function(x){if(!ids.has(x.id))present.push(x);});writeRows_(sh,present);});
@@ -27,9 +53,9 @@ function writeData_(d){var ss=book_();Object.keys(TABLES_).forEach(function(k){w
 function invalidate_(){CacheService.getScriptCache().remove('hori-public');}
 function backup_(d,op){var rows=[{id:'META',data:{revision:props_().getProperty('DATA_REVISION'),updatedAt:props_().getProperty('UPDATED_AT')||'',operationId:op}}];Object.keys(TABLES_).forEach(function(k){d[k].forEach(function(x){rows.push({id:k+'|'+x.id,key:k,record:x});});});rows.push({id:'SETTINGS',record:d.settings});readRows_(book_().getSheetByName('Riwayat Perubahan')).forEach(function(x){rows.push({id:'audit|'+x.id,key:'audit',record:x});});writeRows_(book_().getSheetByName('_Transaksi'),rows);SpreadsheetApp.flush();props_().setProperty('PENDING_TX',op);}
 function recover_(){var rows=readRows_(book_().getSheetByName('_Transaksi')),meta=rows.find(function(x){return x.id==='META';});if(!meta)throw Error('Snapshot transaksi tidak ditemukan. Minta pengelola memulihkan spreadsheet.');var d={settings:rows.find(function(x){return x.id==='SETTINGS';}).record};Object.keys(TABLES_).forEach(function(k){d[k]=rows.filter(function(x){return x.key===k;}).map(function(x){return x.record;});});writeData_(d);writeRows_(book_().getSheetByName('Riwayat Perubahan'),rows.filter(function(x){return x.key==='audit';}).map(function(x){return x.record;}));props_().setProperty('DATA_REVISION',meta.data.revision||'0');props_().setProperty('UPDATED_AT',meta.data.updatedAt);props_().deleteProperty('PENDING_TX');invalidate_();}
-function adminLoad(){assertAdmin_();var lock=LockService.getScriptLock();lock.waitLock(30000);try{if(props_().getProperty('PENDING_TX'))recover_();return readData_();}finally{lock.releaseLock();}}
+function adminLoad(token){assertAdmin_(token);var lock=LockService.getScriptLock();lock.waitLock(30000);try{if(props_().getProperty('PENDING_TX'))recover_();return readData_();}finally{lock.releaseLock();}}
 function adminCommand(request){
- var actor=assertAdmin_(),lock=LockService.getScriptLock();lock.waitLock(30000);
+ var actor=assertAdmin_(request&&request.adminToken),lock=LockService.getScriptLock();lock.waitLock(30000);
  try{
   if(props_().getProperty('PENDING_TX'))recover_();if(!request||!/^[a-zA-Z0-9_-]{10,100}$/.test(request.operationId||''))throw Error('ID operasi tidak valid.');
   var log=readRows_(book_().getSheetByName('Riwayat Perubahan')),done=log.find(function(x){return x.id===request.operationId;});if(done)return {revision:done.resultRevision,message:'Operasi ini sudah tersimpan.'};
@@ -116,6 +142,11 @@ function publicData_(d){
  out.judging=[];return out;
 }
 function doGet(e){
+ if(e&&e.parameter&&e.parameter.view==='admin'){
+  var sport=e.parameter.sport||'';if(!seedData_().sports.some(function(s){return s.id===sport;}))sport='';
+  return HtmlService.createHtmlOutput(adminHtml_().replace('<body>','<body data-web-admin="true" data-initial-sport="'+sport+'">')).setTitle('Admin HORI 80').addMetaTag('viewport','width=device-width, initial-scale=1');
+ }
+
  var callback=e&&e.parameter&&e.parameter.callback,body;
  if(callback&&!/^horiCallback[0-9]{10,30}$/.test(callback))return ContentService.createTextOutput(JSON.stringify({error:'Callback tidak valid.'})).setMimeType(ContentService.MimeType.JSON);
  try{var cache=CacheService.getScriptCache();body=cache.get('hori-public');if(!body){var lock=LockService.getScriptLock();lock.waitLock(20000);try{if(props_().getProperty('PENDING_TX'))throw Error('Pembaruan sedang dipulihkan.');body=JSON.stringify(publicData_(readData_()));if(body.length<90000)cache.put('hori-public',body,90);}finally{lock.releaseLock();}}}
