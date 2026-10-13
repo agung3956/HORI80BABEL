@@ -55,10 +55,25 @@
   // Poster panitia yang belum tercatat pada deployment Google saat ini.
   // Record Google dengan ID yang sama tetap menjadi acuan untuk koreksi/status.
   const scheduleExtras = [{
+    id: 'BAKSOS-SERDANG', sportId: '',
+    title: 'Bakti sosial korban kebakaran Dusun Serdang', type: 'Bakti sosial',
+    date: '2026-10-15T08:00:00+07:00', endDate: null, allDay: false,
+    location: 'Dusun Serdang, Desa Jelutung II, Kabupaten Bangka Selatan',
+    note: 'Pengumpulan donasi paling lambat Rabu, 14 Oktober 2026 pukul 14.00 WIB melalui PIC KPP Pratama Pangkalpinang. Donasi dana diprioritaskan untuk sembako dan kebutuhan lainnya; pakaian layak pakai di lokasi sudah sangat menumpuk.',
+    status: 'Terjadwal', unitIds: [], revision: 0
+  }, {
+    id: 'TM-VOLI', sportId: 'voli',
+    title: 'Technical meeting Voli HORI Babel 2026', type: 'Technical meeting',
+    date: '2026-10-13T16:00:00+07:00', endDate: '2026-10-13T17:00:00+07:00', allDay: false,
+    location: 'Microsoft Teams',
+    note: 'Peserta: 1 orang (kapten atau perwakilan tim). Tautan rapat: https://teams.microsoft.com/meet/473449822352676?p=54pQfNiX2vUucALFOW. Detail ID dan kode sandi mengikuti undangan panitia.',
+    status: 'Terjadwal', unitIds: [], revision: 0
+  }, {
     id: 'TM-GOB-VOL', sportId: 'gobak-voli-pantai',
-    title: 'Technical meeting Gobak Sodor & Voli Pantai', type: 'Technical meeting',
-    date: '2026-10-13T14:00:00+07:00', endDate: null, allDay: false,
-    location: 'Menunggu informasi', note: 'Lokasi akan diinformasikan panitia.',
+    title: 'Technical meeting Gobak Sodor & Voli Pantai HORI Babel 2026', type: 'Technical meeting',
+    date: '2026-10-13T14:00:00+07:00', endDate: '2026-10-13T15:00:00+07:00', allDay: false,
+    location: 'Microsoft Teams',
+    note: 'Peserta: perwakilan dari setiap unit. Tautan rapat: http://s.kemenkeu.go.id/TMGobakSodor. Detail ID dan kode sandi mengikuti undangan panitia.',
     status: 'Terjadwal', unitIds: [], revision: 0,
     poster: 'assets/posters/tm-gobak-sodor-voli-pantai.png'
   }];
