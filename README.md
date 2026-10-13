@@ -2,6 +2,14 @@
 
 Tema: Indonesia Berdaulat, APBN Kuat.
 
+## Lisensi dan kontribusi
+
+Kode sumber proyek ini tersedia dengan [lisensi MIT](LICENSE). Anda dapat menggunakan ulang dan mengembangkan kode untuk pengelolaan jadwal, klasemen, serta hasil kegiatan lain. Kontribusi melalui issue dan pull request dipersilakan. Jelaskan masalah atau perubahan, hindari data pribadi, dan sertakan langkah verifikasi yang relevan. Semua kontributor mengikuti [Code of Conduct](CODE_OF_CONDUCT.md).
+
+Lisensi MIT berlaku untuk kode asli proyek dan dokumentasi teknis yang dibuat untuk kode tersebut. Logo resmi, merek, poster, foto, handbook, dokumen kegiatan, data peserta, dan materi pihak ketiga tidak termasuk dalam pemberian lisensi MIT. Materi tersebut tetap mengikuti hak dan izin pemiliknya. Font dan dependensi pihak ketiga mengikuti lisensinya masing-masing. Penggunaan ulang kode tidak memberikan hak untuk memakai identitas resmi atau menyatakan dukungan instansi.
+
+Website ini mendukung informasi kegiatan HORI 80 Babel tanpa layanan hosting atau dukungan berbayar. Penambahan lisensi dan Code of Conduct tidak berarti pengajuan Netlify Open Source sudah disetujui.
+
 ## Slideshow dan admin web (12 Oktober 2026)
 
 Enam poster pengguna tampil utuh pada beranda dengan tombol sebelumnya/berikutnya, jeda, pemilih poster, dan dialog ukuran penuh. Slideshow berhenti saat fokus/hover, tab tersembunyi, atau preferensi reduced motion aktif.
