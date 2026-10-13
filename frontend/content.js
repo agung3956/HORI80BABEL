@@ -21,6 +21,12 @@
   };
   const posters = [
   {
+    "path": "assets/posters/donasi-bakti-sosial-2026-10-14.jpg",
+    "title": "Pengumpulan Donasi Bakti Sosial",
+    "sportId": "",
+    "date": "2026-10-14T16:00:00+07:00"
+  },
+  {
     "path": "assets/posters/turnamen-tenis.png",
     "title": "Turnamen tenis HORI 2026",
     "sportId": "tenis-lapangan"
@@ -57,9 +63,9 @@
   const scheduleExtras = [{
     id: 'BAKSOS-SERDANG', sportId: '',
     title: 'Bakti sosial korban kebakaran Dusun Serdang', type: 'Bakti sosial',
-    date: '2026-10-15T08:00:00+07:00', endDate: null, allDay: false,
-    location: 'Dusun Serdang, Desa Jelutung II, Kabupaten Bangka Selatan',
-    note: 'Pengumpulan donasi paling lambat Rabu, 14 Oktober 2026 pukul 14.00 WIB melalui PIC KPP Pratama Pangkalpinang. Donasi dana diprioritaskan untuk sembako dan kebutuhan lainnya; pakaian layak pakai di lokasi sudah sangat menumpuk.',
+    date: '2026-10-14T16:00:00+07:00', endDate: null, allDay: false,
+    location: 'Dusun Serdang, Desa Jelutung 2, Kecamatan Simpang Rimba, Kabupaten Bangka Selatan',
+    note: 'Batas pengumpulan bantuan Rabu, 14 Oktober 2026 pukul 16.00 WIB. Donasi dana melalui Bank Mandiri 900-00-0696252-7 a.n. Said Rachmad Hidayat; pakaian layak pakai diterima sampai batas waktu.',
     status: 'Terjadwal', unitIds: [], revision: 0
   }, {
     id: 'TM-VOLI', sportId: 'voli',
@@ -80,7 +86,7 @@
   const activitySlides = [
     {id: 'TM-GOB-VOL', kind: 'event', eventId: 'TM-GOB-VOL', poster: 'assets/posters/tm-gobak-sodor-voli-pantai.png'},
     {id: 'TM-VOLI', kind: 'event', eventId: 'TM-VOLI'},
-    {id: 'BAKSOS-SERDANG', kind: 'event', eventId: 'BAKSOS-SERDANG'},
+    {id: 'BAKSOS-SERDANG', kind: 'event', eventId: 'BAKSOS-SERDANG', poster: 'assets/posters/donasi-bakti-sosial-2026-10-14.jpg'},
     ...posters.filter(p => !['assets/posters/tm-gobak-sodor-voli-pantai.png', 'assets/posters/kickoff-hori.jpg'].includes(p.path)).map((p, i) => ({id: `poster-${i}`, kind: 'poster', poster: p.path, title: p.title, subtitle: 'Poster informasi kegiatan HORI ke-80.'})),
     {id: 'kickoff-hori', kind: 'poster', poster: 'assets/posters/kickoff-hori.jpg', title: kickoff.title, subtitle: kickoff.summary}
   ];
