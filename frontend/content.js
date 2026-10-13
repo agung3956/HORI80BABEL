@@ -77,10 +77,17 @@
     status: 'Terjadwal', unitIds: [], revision: 0,
     poster: 'assets/posters/tm-gobak-sodor-voli-pantai.png'
   }];
+  const activitySlides = [
+    {id: 'TM-GOB-VOL', kind: 'event', eventId: 'TM-GOB-VOL', poster: 'assets/posters/tm-gobak-sodor-voli-pantai.png'},
+    {id: 'TM-VOLI', kind: 'event', eventId: 'TM-VOLI'},
+    {id: 'BAKSOS-SERDANG', kind: 'event', eventId: 'BAKSOS-SERDANG'},
+    ...posters.filter(p => !['assets/posters/tm-gobak-sodor-voli-pantai.png', 'assets/posters/kickoff-hori.jpg'].includes(p.path)).map((p, i) => ({id: `poster-${i}`, kind: 'poster', poster: p.path, title: p.title, subtitle: 'Poster informasi kegiatan HORI ke-80.'})),
+    {id: 'kickoff-hori', kind: 'poster', poster: 'assets/posters/kickoff-hori.jpg', title: kickoff.title, subtitle: kickoff.summary}
+  ];
   function withSchedule(payload) {
     const existing = new Set(payload.schedule.map(event => event.id));
     return {...payload, schedule: [...payload.schedule, ...scheduleExtras.filter(event => !existing.has(event.id)).map(event => ({...event, unitIds: [...event.unitIds]}))]};
   }
-  root.HORI_CONTENT = { handbooks, kickoff, posters, scheduleExtras, withSchedule };
+  root.HORI_CONTENT = { handbooks, kickoff, posters, scheduleExtras, activitySlides, withSchedule };
   if (typeof module === 'object' && module.exports) module.exports = root.HORI_CONTENT;
 })(typeof window === 'undefined' ? globalThis : window);
