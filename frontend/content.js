@@ -19,6 +19,15 @@
     sourceUrl: 'https://www.instagram.com/p/DeRR1KwHyo_/?img_index=2',
     embedUrl: 'https://www.instagram.com/p/DeRR1KwHyo_/embed/'
   };
-  root.HORI_CONTENT = { handbooks, kickoff };
+  const posters = [{
+    id: 'poster-donasi-bakti-sosial',
+    title: 'Pengumpulan Donasi Bakti Sosial',
+    date: '2026-10-14T16:00:00+07:00',
+    location: 'Dusun Serdang, Desa Jelutung 2, Kecamatan Simpang Rimba, Kabupaten Bangka Selatan',
+    path: 'assets/poster-donasi-bakti-sosial-2026-10-14.jpg',
+    alt: 'Poster pengumpulan donasi bakti sosial peduli korban kebakaran',
+    caption: 'Batas pengumpulan bantuan: Rabu, 14 Oktober 2026 pukul 16.00 WIB.'
+  }];
+  root.HORI_CONTENT = { handbooks, kickoff, posters };
   if (typeof module === 'object' && module.exports) module.exports = root.HORI_CONTENT;
 })(typeof window === 'undefined' ? globalThis : window);

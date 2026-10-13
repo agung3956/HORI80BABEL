@@ -42,6 +42,7 @@ event('ML-REG','mlbb','Pendaftaran Mobile Legends','Pendaftaran','2026-10-07','2
 event('ML-TM','mlbb','Technical meeting & pembagian grup','Technical meeting','2026-10-09T16:00:00+07:00','2026-10-09T17:00:00+07:00','Microsoft Teams','Satu kapten atau perwakilan tiap tim. Informasi berdasarkan ND-1077/KPP.0306/2026.');
 event('ML-GROUP','mlbb','Babak grup Mobile Legends','Pertandingan','2026-10-12','2026-10-18',null,'Rentang pertandingan 15.00–23.59 WIB. Mengikuti handbook.',true);
 event('ML-PLAY','mlbb','Playoff Mobile Legends','Pertandingan','2026-10-19','2026-10-25',null,'Rentang pertandingan 15.00–23.59 WIB. Mengikuti handbook.',true);
+event('DONASI-BAKTI-SOSIAL','','Pengumpulan donasi bakti sosial korban kebakaran','Bakti sosial','2026-10-14T16:00:00+07:00',null,'Dusun Serdang, Desa Jelutung 2, Kecamatan Simpang Rimba, Kabupaten Bangka Selatan','Batas pengumpulan bantuan pukul 16.00 WIB. Donasi dana melalui Bank Mandiri 900-00-0696252-7 a.n. Said Rachmad Hidayat; pakaian layak pakai diterima sampai batas waktu.',false);
 event('FOTO-SUBMIT','fotografi','Pengumpulan karya fotografi','Pengumpulan karya','2026-10-12','2026-10-26',null,'Mengikuti mekanisme pengumpulan resmi.',true);
 event('FOTO-JUDGE','fotografi','Penjurian fotografi','Penjurian','2026-10-27','2026-10-29',null,null,true);
 event('FOTO-ANNOUNCE','fotografi','Pengumuman pemenang fotografi','Pengumuman','2026-10-30',null,null,'Tanggal acuan KAK, dapat diperbarui panitia.',true);
