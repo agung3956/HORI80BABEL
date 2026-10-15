@@ -9,6 +9,17 @@ function sample(d,id='tenis-meja-P1',winner='A'){
 }
 function configured(){const d=copy(seed);d.settings.tableOrderConfirmed=true;d.settings.tennisTableDeuce=true;d.settings.badmintonDeuce=true;return d;}
 test('Data awal tanpa hasil fiktif, ID stabil, dan bagan berbeda',()=>{assert.equal(seed.matches.length,12);assert.ok(seed.matches.every(m=>m.state==='draft'&&m.scoreA===null));assert.equal(seed.awards.length,0);assert.equal(seed.matches.find(m=>m.id==='tenis-meja-P1').teamA,'U03');assert.equal(seed.matches.find(m=>m.id==='bulutangkis-P1').teamA,'U04');assert.equal(seed.matches.find(m=>m.id==='tenis-meja-P4').teamB,'U05');assert.equal(seed.matches.find(m=>m.id==='bulutangkis-P4').teamB,'U06');assert.equal(new Set(seed.schedule.map(e=>e.id)).size,seed.schedule.length);});
+test('Hasil MLBB 14 Oktober mempertahankan tanggal, skor, dan koreksi backend tanpa duplikasi',()=>{
+ const C=require('../frontend/content.js'),d=C.withMatches(copy(seed)),m=d.matches.find(m=>m.id==='mlbb-20261014-A1');
+ assert.equal(m.date,'2026-10-14');assert.equal(m.scoreA,0);assert.equal(m.scoreB,2);assert.equal(m.winnerId,'U05');assert.ok(E.validOfficial(m));
+ assert.equal(C.withMatches(d).matches.length,d.matches.length);
+ const remote={...m,id:'backend-14-A',state:'draft',scoreA:null,scoreB:null,winnerId:null};
+ const synced=C.withMatches({...copy(seed),matches:[remote]});
+ assert.ok(!synced.matches.some(m=>m.id==='mlbb-20261014-A1'));assert.deepEqual(synced.matches.find(m=>m.id===remote.id),remote);
+ const group=E.groupTable(d,d.groups.find(g=>g.id==='ML-GRUP-A'));
+ assert.equal(group.rows.find(r=>r.unitId==='U05').won,1);
+ assert.equal(group.rows.find(r=>r.unitId==='U01').lost,1);
+});
 test('Partai ketiga Tidak dimainkan tanpa skor setelah 2–0',()=>{const d=configured(),m=E.validateMatch(d,sample(d));assert.equal(m.scoreA,2);assert.equal(m.scoreB,0);assert.equal(m.parts[2].status,'Tidak dimainkan');const bad=sample(d);bad.parts[2].games=[{a:0,b:0}];assert.throws(()=>E.validateMatch(d,bad),/tanpa skor/);});
 test('Best of five tenis meja dan best of three bulutangkis berbeda',()=>{const d=configured();assert.equal(E.validateMatch(d,sample(d,'bulutangkis-P1')).scoreA,2);const bad=sample(d);bad.parts[0].games.pop();assert.throws(()=>E.validateMatch(d,bad),/belum selesai/);});
 test('Deuce harus dikonfirmasi dan tidak menerima gim setelah kemenangan',()=>{const d=configured();const m=sample(d);m.parts[0].games[0]={a:12,b:10};d.settings.tennisTableDeuce=false;assert.throws(()=>E.validateMatch(d,m),/Konfirmasi/);d.settings.tennisTableDeuce=true;assert.equal(E.validateMatch(d,m).scoreA,2);m.parts[0].games.push({a:11,b:0});assert.throws(()=>E.validateMatch(d,m),/setelah partai/);});

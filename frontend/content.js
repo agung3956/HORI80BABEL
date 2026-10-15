@@ -55,7 +55,7 @@
   posters.push(
     {path: 'assets/posters/donasi-baksos-serdang.jpg', title: 'Pengumpulan donasi bakti sosial korban kebakaran', sportId: ''},
     {path: 'assets/posters/lomba-menyanyi-hori-80.jpg', title: 'Lomba menyanyi HORI ke-80', sportId: 'menyanyi'},
-    {path: 'assets/posters/mlbb-klasemen-13-oktober.jpg', title: 'Klasemen Mobile Legends · 13 Oktober 2026', sportId: 'mlbb'},
+    {path: 'assets/posters/mlbb-klasemen-14-oktober.jpg', title: 'Klasemen Mobile Legends Grup A · 14 Oktober 2026', sportId: 'mlbb'},
     {path: 'assets/posters/ketentuan-lomba-menyanyi.png', title: 'Formulir dan ketentuan lomba menyanyi', sportId: 'menyanyi'}
   );
   // Poster panitia yang belum tercatat pada deployment Google saat ini.
@@ -107,6 +107,19 @@
     'BAKSOS-DONASI-20261014': {date: '2026-10-14T16:00:00+07:00', title: 'Batas pengumpulan donasi bakti sosial Dusun Serdang', note: 'Dana dan pakaian layak pakai dikumpulkan melalui PIC KPP Pratama Pangkalpinang. Poster memuat rincian rekening donasi.'}
   };
   const matchExtras = [{id:'mlbb-20261013-A1',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'13 Okt · A1',teamA:'U03',teamB:'U04',winnerId:'U03',scoreA:2,scoreB:0,state:'official',status:'Selesai',date:'2026-10-13',allDay:true,location:'Mobile Legends',parts:[],revision:0},{id:'mlbb-20261013-A2',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'13 Okt · A2',teamA:'U04',teamB:'U01',winnerId:'U01',scoreA:0,scoreB:2,state:'official',status:'Selesai',date:'2026-10-13',allDay:true,location:'Mobile Legends',parts:[],revision:0},{id:'mlbb-20261013-B1',sportId:'mlbb',groupId:'ML-GRUP-B',stage:'Grup',label:'13 Okt · B1',teamA:'U08',teamB:'U07',winnerId:'U08',scoreA:2,scoreB:0,state:'official',status:'Selesai',date:'2026-10-13',allDay:true,location:'Mobile Legends',parts:[],revision:0}];
+  matchExtras.push({
+    id: 'mlbb-20261014-A1', sportId: 'mlbb', groupId: 'ML-GRUP-A',
+    stage: 'Grup', label: '14 Okt · Grup A', teamA: 'U01', teamB: 'U05',
+    winnerId: 'U05', scoreA: 0, scoreB: 2, state: 'official', status: 'Selesai',
+    date: '2026-10-14', allDay: true, location: 'Mobile Legends', parts: [], revision: 0
+  });
+  scheduleExtras.push({
+    id: 'J-mlbb-20261014-A1', sportId: 'mlbb',
+    title: 'Grup A · Kanwil DJPb Babel vs KPPN Pangkalpinang', type: 'Pertandingan',
+    date: '2026-10-14', endDate: null, allDay: true, location: 'Mobile Legends',
+    note: 'Hasil: Kanwil DJPb Babel 0–2 KPPN Pangkalpinang.',
+    status: 'Selesai', unitIds: ['U01', 'U05'], revision: 0
+  });
   const activitySlides = [
     {id: 'TL-TM-UPDATE', kind: 'event', eventId: 'TL-TM'},
     {id: 'NYANYI-UPDATE', kind: 'event', eventId: 'NYANYI-TM', poster: 'assets/posters/lomba-menyanyi-hori-80.jpg'},
@@ -128,10 +141,10 @@
     // A backend correction (including a revoked result) takes precedence.
     const additions = matchExtras.filter(match => !payload.matches.some(remote =>
       remote.id === match.id || (remote.sportId === match.sportId &&
-      remote.date?.slice(0,10) === '2026-10-13' &&
+      remote.date?.slice(0,10) === match.date.slice(0,10) &&
       [remote.teamA, remote.teamB].includes(match.teamA) &&
       [remote.teamA, remote.teamB].includes(match.teamB))
-    )).map(match => ({...match, state: 'official', date: '2026-10-13', allDay: true, parts: []}));
+    )).map(match => ({...match, parts: [...(match.parts || [])]}));
     const singing = root.HORI_SEED?.sports.find(sport => sport.id === 'menyanyi');
     const sports = payload.sports.map(sport => {
       if (sport.id === 'menyanyi' && singing && sport.rules.some(rule => rule.includes('menunggu panitia'))) return {...sport, period: singing.period, rules: [...singing.rules], notes: [...singing.notes]};
