@@ -106,8 +106,10 @@
     'J-tenis-meja-P6': {title: 'Final · Kanwil DJPb vs KPP Bangka', note: 'Wasit: KPPN Pangkalpinang.'},
     'BAKSOS-DONASI-20261014': {date: '2026-10-14T16:00:00+07:00', title: 'Batas pengumpulan donasi bakti sosial Dusun Serdang', note: 'Dana dan pakaian layak pakai dikumpulkan melalui PIC KPP Pratama Pangkalpinang. Poster memuat rincian rekening donasi.'}
   };
-  const matchExtras = [{id:'mlbb-20261013-A1',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'13 Okt · A1',teamA:'U03',teamB:'U04',winnerId:'U03',scoreA:2,scoreB:0,state:'draft',status:'Selesai',date:'2026-10-13T16:00:00+07:00',location:'Mobile Legends',parts:[],revision:0},{id:'mlbb-20261013-A2',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'13 Okt · A2',teamA:'U04',teamB:'U01',winnerId:'U01',scoreA:0,scoreB:2,state:'draft',status:'Selesai',date:'2026-10-13T17:00:00+07:00',location:'Mobile Legends',parts:[],revision:0},{id:'mlbb-20261013-B1',sportId:'mlbb',groupId:'ML-GRUP-B',stage:'Grup',label:'13 Okt · B1',teamA:'U08',teamB:'U07',winnerId:'U08',scoreA:2,scoreB:0,state:'draft',status:'Selesai',date:'2026-10-13T18:00:00+07:00',location:'Mobile Legends',parts:[],revision:0}];
+  const matchExtras = [{id:'mlbb-20261013-A1',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'13 Okt · A1',teamA:'U03',teamB:'U04',winnerId:'U03',scoreA:2,scoreB:0,state:'official',status:'Selesai',date:'2026-10-13',allDay:true,location:'Mobile Legends',parts:[],revision:0},{id:'mlbb-20261013-A2',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'13 Okt · A2',teamA:'U04',teamB:'U01',winnerId:'U01',scoreA:0,scoreB:2,state:'official',status:'Selesai',date:'2026-10-13',allDay:true,location:'Mobile Legends',parts:[],revision:0},{id:'mlbb-20261013-B1',sportId:'mlbb',groupId:'ML-GRUP-B',stage:'Grup',label:'13 Okt · B1',teamA:'U08',teamB:'U07',winnerId:'U08',scoreA:2,scoreB:0,state:'official',status:'Selesai',date:'2026-10-13',allDay:true,location:'Mobile Legends',parts:[],revision:0}];
   const activitySlides = [
+    {id: 'TL-TM-UPDATE', kind: 'event', eventId: 'TL-TM'},
+    {id: 'NYANYI-UPDATE', kind: 'event', eventId: 'NYANYI-TM', poster: 'assets/posters/lomba-menyanyi-hori-80.jpg'},
     {id: 'TM-GOB-VOL', kind: 'event', eventId: 'TM-GOB-VOL', poster: 'assets/posters/tm-gobak-sodor-voli-pantai.png'},
     {id: 'TM-VOLI', kind: 'event', eventId: 'TM-VOLI'},
     {id: 'BAKSOS-SERDANG', kind: 'event', eventId: 'BAKSOS-SERDANG'},
@@ -123,8 +125,28 @@
     return {...payload, schedule: [...schedule, ...scheduleExtras.filter(event => !existing.has(event.id)).map(event => ({...event, unitIds: [...event.unitIds]}))]};
   }
   function withMatches(payload) {
-    const existing = new Set(payload.matches.map(match => match.id));
-    return {...payload, matches: [...payload.matches, ...matchExtras.filter(match => !existing.has(match.id)).map(match => ({...match, parts: [...(match.parts || [])]}))]};
+    // A backend correction (including a revoked result) takes precedence.
+    const additions = matchExtras.filter(match => !payload.matches.some(remote =>
+      remote.id === match.id || (remote.sportId === match.sportId &&
+      remote.date?.slice(0,10) === '2026-10-13' &&
+      [remote.teamA, remote.teamB].includes(match.teamA) &&
+      [remote.teamA, remote.teamB].includes(match.teamB))
+    )).map(match => ({...match, state: 'official', date: '2026-10-13', allDay: true, parts: []}));
+    const singing = root.HORI_SEED?.sports.find(sport => sport.id === 'menyanyi');
+    const sports = payload.sports.map(sport => {
+      if (sport.id === 'menyanyi' && singing && sport.rules.some(rule => rule.includes('menunggu panitia'))) return {...sport, period: singing.period, rules: [...singing.rules], notes: [...singing.notes]};
+      if (sport.id === 'tenis-lapangan') return {...sport, rules: sport.rules.map(rule => rule.replace('pukul 16.30 WIB', 'pukul 14.00–15.00 WIB'))};
+      return sport;
+    });
+    const matches = payload.matches.map(match => {
+      const teams = {'tenis-meja-P5': ['U05','U02'], 'tenis-meja-P6': ['U01','U04']}[match.id];
+      return teams && match.state === 'draft' && !match.needsReview ? {...match, teamA: teams[0], teamB: teams[1], sourceA: null, sourceB: null} : match;
+    });
+    const groups = payload.groups.length ? payload.groups : [
+      {id: 'ML-GRUP-A', name: 'Grup A', unitIds: ['U03','U01','U05','U04']},
+      {id: 'ML-GRUP-B', name: 'Grup B', unitIds: ['U02','U08','U07']}
+    ];
+    return {...payload, sports, groups, matches: [...matches, ...additions]};
   }
   root.HORI_CONTENT = { handbooks, kickoff, posters, scheduleExtras, scheduleOverrides, matchExtras, activitySlides, withSchedule, withMatches };
   if (typeof module === 'object' && module.exports) module.exports = root.HORI_CONTENT;
