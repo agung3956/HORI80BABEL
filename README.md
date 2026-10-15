@@ -28,13 +28,13 @@ Endpoint publik hanya membaca hasil yang disaring. Tidak ada doPost; operasi adm
 
 Poster pengguna ditambahkan ke slideshow (total tujuh poster), kartu informasi beranda, dan halaman cabor. Technical meeting: Selasa, 13 Oktober 2026 pukul 14.00 WIB; lokasi belum tercantum pada poster. Agenda ID `TM-GOB-VOL` tersedia pada jadwal website dan seed backend. `content.js` melengkapi agenda ini bila endpoint Google lama belum memuatnya; bila Google memuat ID yang sama, koreksi tanggal, lokasi dan status admin dipertahankan tanpa duplikasi. Paket GS telah dihasilkan ulang untuk setup berikutnya; penayangan informasi di website tidak memerlukan redeploy Apps Script.
 
-## Hosting Netlify
+## Hosting Vercel
 
 Repositori: https://github.com/agung3956/HORI80BABEL
 
-Konfigurasi `netlify.toml` memublikasikan folder `frontend` langsung, tanpa build command atau instalasi dependensi. Hubungkan branch `main` di Netlify agar setiap push otomatis memperbarui website. Folder `backend`, `tests`, dan arsip ZIP tidak masuk ke website publik.
+Hosting aktif hanya Vercel: https://hori80babel.vercel.app/. Sejak 15 Oktober 2026, situs Netlify dinonaktifkan dan koneksi deploy GitHub di Netlify diputus. Jangan deploy atau mengaktifkan kembali situs Netlify.
 
-Folder lokal `.netlify` diabaikan oleh Git. Backend tetap dijalankan di Google Apps Script; Netlify hanya menghosting frontend. Isi `apiUrl` di `frontend/config.js` dengan URL deployment Google yang berakhir `/exec` setelah backend Google disiapkan.
+Vercel terhubung ke branch `main`. Konfigurasi `vercel.json` memublikasikan folder `frontend`, tanpa build command atau instalasi dependensi. Folder `backend`, `tests`, dan arsip ZIP tidak dipublikasikan. Backend tetap berjalan di Google Apps Script; `frontend/config.js` menyimpan URL Web App Google.
 
 ## Pembaruan konten 12 Oktober 2026
 
