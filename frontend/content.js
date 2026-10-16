@@ -8,7 +8,8 @@
       { title: 'Handbook MLBB HORI 2026', path: 'handbooks/handbook-mlbb-hori-2026.pdf', format: 'PDF', pages: 4 },
       { title: 'Informasi technical meeting MLBB', path: 'handbooks/informasi-mlbb.html', format: 'Ringkasan nota dinas' }
     ],
-    'fotografi': [{ title: 'KAK lomba fotografi HORI 80 Babel', path: 'handbooks/kak-fotografi-hori-80-babel.pdf', format: 'PDF', pages: 7 }]
+    'fotografi': [{ title: 'KAK lomba fotografi HORI 80 Babel', path: 'handbooks/kak-fotografi-hori-80-babel.pdf', format: 'PDF', pages: 7 }],
+    'gobak-voli-pantai': [{title: 'Aturan dan bagan Gobak Sodor terbaru', path: 'handbooks/aturan-gobak-sodor-update.pdf', format: 'PDF', pages: 4}]
   };
   const kickoff = {
     title: 'Kick off HORI ke-80',
@@ -55,7 +56,7 @@
   posters.push(
     {path: 'assets/posters/donasi-baksos-serdang.jpg', title: 'Pengumpulan donasi bakti sosial korban kebakaran', sportId: ''},
     {path: 'assets/posters/lomba-menyanyi-hori-80.jpg', title: 'Lomba menyanyi HORI ke-80', sportId: 'menyanyi'},
-    {path: 'assets/posters/mlbb-klasemen-14-oktober.jpg', title: 'Klasemen Mobile Legends Grup A · 14 Oktober 2026', sportId: 'mlbb'},
+    {path: 'assets/posters/mlbb-klasemen-15-oktober.jpg', title: 'Klasemen Mobile Legends · 15 Oktober 2026', sportId: 'mlbb'},
     {path: 'assets/posters/ketentuan-lomba-menyanyi.png', title: 'Formulir dan ketentuan lomba menyanyi', sportId: 'menyanyi'}
   );
   // Poster panitia yang belum tercatat pada deployment Google saat ini.
@@ -101,6 +102,7 @@
     date: '2026-10-13', endDate: null, allDay: true, location: 'Mobile Legends', note: 'Hasil: KPPBC Tanjung Pandan menang 2–0.', status: 'Selesai', unitIds: [], revision: 0
   }];
   const scheduleOverrides = {
+    'GOB-VOL': {note: 'Khusus Gobak Sodor: peserta wajib hadir dan siap mulai pukul 08.00 WIB sesuai PDF aturan terbaru. Lihat halaman cabor untuk bagan dan ketentuan lengkap.'},
     'TL-TM': {date: '2026-10-15T14:00:00+07:00', endDate: '2026-10-15T15:00:00+07:00', title: 'Technical meeting tenis lapangan HORI Babel 2026', note: 'Peserta: 1 orang perwakilan dari masing-masing satker. Tautan rapat: https://teams.microsoft.com/meet/451711671812590?p=v7IOJCmFiM21Me4rI0. Detail ID dan kode sandi mengikuti undangan panitia.'},
     'J-tenis-meja-P5': {title: 'Perebutan juara 3 · KPPN Pangkalpinang vs KPPBC Pangkalpinang', note: 'Wasit: Kanwil DJPb.'},
     'J-tenis-meja-P6': {title: 'Final · Kanwil DJPb vs KPP Bangka', note: 'Wasit: KPPN Pangkalpinang.'},
@@ -120,6 +122,41 @@
     note: 'Hasil: Kanwil DJPb Babel 0–2 KPPN Pangkalpinang.',
     status: 'Selesai', unitIds: ['U01', 'U05'], revision: 0
   });
+  posters.push(
+    {path: 'assets/posters/bagan-tenis-lapangan.png', title: 'Bagan tenis lapangan hasil technical meeting', sportId: 'tenis-lapangan'},
+    {path: 'assets/posters/bagan-gobak-sodor.jpg', title: 'Bagan perlombaan Gobak Sodor', sportId: 'gobak-voli-pantai'}
+  );
+  matchExtras.push(
+    {id:'mlbb-20261015-A1',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'15 Okt · Grup A',teamA:'U03',teamB:'U01',winnerId:'U03',scoreA:2,scoreB:0,state:'official',status:'Selesai',date:'2026-10-15',allDay:true,location:'Mobile Legends',parts:[],revision:0},
+    {id:'mlbb-20261015-B1',sportId:'mlbb',groupId:'ML-GRUP-B',stage:'Grup',label:'15 Okt · Grup B',teamA:'U07',teamB:'U02',winnerId:'U02',scoreA:0,scoreB:2,state:'official',status:'Selesai',date:'2026-10-15',allDay:true,location:'Mobile Legends',parts:[],revision:0}
+  );
+  matchExtras.filter(m=>m.date==='2026-10-15').forEach(m=>scheduleExtras.push({
+    id:'J-'+m.id,sportId:'mlbb',title:m.groupId==='ML-GRUP-A'?'Grup A · KPP Pangkalpinang 2–0 Kanwil DJPb Babel':'Grup B · KPP Tanjung Pandan 0–2 KPPBC Pangkalpinang',
+    type:'Pertandingan',date:m.date,endDate:null,allDay:true,location:'Mobile Legends',note:'Hasil pertandingan 15 Oktober 2026.',status:'Selesai',unitIds:[m.teamA,m.teamB],revision:0
+  }));
+  const tennisRules = [
+    'Hasil technical meeting 15 Oktober 2026 menggantikan format pertandingan pada handbook lama.',
+    'Round 1 sampai semifinal: 1 set, 8 game, tanpa deuce.',
+    'Final: 1 set, 8 game, menggunakan deuce.',
+    'Ganda laki-laki, perempuan, atau campuran. Setiap unit maksimal tiga orang: dua inti dan satu cadangan.',
+    'Bagan sesuai hasil pengundian technical meeting; jadwal rinci setiap pertemuan mengikuti panitia.',
+    'Turnamen 17–18 Oktober 2026 di Lapangan Tenis Komplek Bea Cukai Pasir Garam. Peserta membawa raket sendiri dan hadir paling lambat 15 menit sebelum jadwal.'
+  ];
+  const gobakRules = [
+    'Setiap tim terdiri atas 4 pemain utama laki-laki dari unit yang didaftarkan, dengan 1–2 cadangan opsional. Peserta siap mulai pukul 08.00 WIB. Persiapan penggabungan ulang tim maksimal 15 menit setelah arahan panitia.',
+    'Penyerang pertama ditentukan melalui undian. Setiap pertandingan terdiri atas 2 ronde; kedua tim bertukar peran. Durasi 5 menit per ronde dengan pergantian posisi 1–2 menit.',
+    'Penyerang melewati seluruh garis hingga garis akhir lalu kembali ke garis awal. Berhasil masuk mendapat 0,5 poin; kembali ke garis awal menambah 0,5 poin. Maksimal 1 poin per pemain.',
+    'Pemain tersentuh secara sah dinyatakan mati dan berhenti pada putaran aktifnya; pemain lain tetap bermain. Sudah masuk tetapi tersentuh sebelum kembali mendapat 0,5 poin. Pemain yang sudah kembali tidak boleh masuk lagi untuk menambah poin.',
+    'Penjaga hanya bergerak di garisnya dan menyentuh dengan tangan secara wajar. Dilarang mendorong, menarik, menjegal, memukul, melempar pasir, atau keluar batas lapangan.',
+    'Poin tertinggi setelah 2 ronde menang. Jika seri, panitia dapat mengadakan ronde tambahan. Petugas mencatat poin dan wasit mengesahkan; keputusan wasit selama pertandingan bersifat final.',
+    'Wasit bergiliran dari perwakilan unit. Panitia menyiapkan lapangan pasir yang aman beserta perlengkapan. Pertandingan dihentikan jika cuaca atau pantai membahayakan, termasuk petir atau ombak mencapai lapangan. Pelanggaran berat dapat berujung diskualifikasi.',
+    'Bagan: KPP Pangkalpinang (A) mendapat bye dan bertemu pemenang KPP Bangka (B) vs KPPBC Pangkalpinang (C). Kanwil DJPb Babel (F) mendapat bye dan bertemu pemenang KPPN Pangkalpinang (D) vs KPKNL Pangkalpinang (E). Kedua pemenang bertemu di final.'
+  ];
+  const awardExtras = [
+    {id:'TT-JUARA-20261015-1',sportId:'tenis-meja',categoryId:'beregu',rank:1,unitId:'U04',state:'official'},
+    {id:'TT-JUARA-20261015-2',sportId:'tenis-meja',categoryId:'beregu',rank:2,unitId:'U01',state:'official'},
+    {id:'TT-JUARA-20261015-3',sportId:'tenis-meja',categoryId:'beregu',rank:3,unitId:'U05',state:'official'}
+  ];
   const activitySlides = [
     {id: 'TL-TM-UPDATE', kind: 'event', eventId: 'TL-TM'},
     {id: 'NYANYI-UPDATE', kind: 'event', eventId: 'NYANYI-TM', poster: 'assets/posters/lomba-menyanyi-hori-80.jpg'},
@@ -148,7 +185,9 @@
     const singing = root.HORI_SEED?.sports.find(sport => sport.id === 'menyanyi');
     const sports = payload.sports.map(sport => {
       if (sport.id === 'menyanyi' && singing && sport.rules.some(rule => rule.includes('menunggu panitia'))) return {...sport, period: singing.period, rules: [...singing.rules], notes: [...singing.notes]};
-      if (sport.id === 'tenis-lapangan') return {...sport, rules: sport.rules.map(rule => rule.replace('pukul 16.30 WIB', 'pukul 14.00–15.00 WIB'))};
+      if (sport.id === 'tenis-lapangan') return {...sport, rules: [...tennisRules], notes: ['Format 8 game mengikuti hasil TM terbaru. Ketentuan lama 6/7 game dan tie-break tidak dijadikan acuan format pertandingan terbaru.']};
+      if (sport.id === 'gobak-voli-pantai') return {...sport, rules: [...gobakRules], notes: ['Aturan dan bagan ini khusus Gobak Sodor. Aturan Voli Pantai belum disertakan dalam pembaruan ini.']};
+      if (sport.id === 'tenis-meja') return {...sport, medalConfirmed: true};
       return sport;
     });
     const matches = payload.matches.map(match => {
@@ -159,7 +198,8 @@
       {id: 'ML-GRUP-A', name: 'Grup A', unitIds: ['U03','U01','U05','U04']},
       {id: 'ML-GRUP-B', name: 'Grup B', unitIds: ['U02','U08','U07']}
     ];
-    return {...payload, sports, groups, matches: [...matches, ...additions]};
+    const awards = [...payload.awards, ...awardExtras.filter(award => !payload.awards.some(remote => remote.sportId === award.sportId && remote.categoryId === award.categoryId && remote.rank === award.rank))];
+    return {...payload, sports, groups, awards, settings: {...payload.settings, standingsConfirmed: true}, matches: [...matches, ...additions]};
   }
   root.HORI_CONTENT = { handbooks, kickoff, posters, scheduleExtras, scheduleOverrides, matchExtras, activitySlides, withSchedule, withMatches };
   if (typeof module === 'object' && module.exports) module.exports = root.HORI_CONTENT;

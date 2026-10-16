@@ -16,9 +16,25 @@ test('Hasil MLBB 14 Oktober mempertahankan tanggal, skor, dan koreksi backend ta
  const remote={...m,id:'backend-14-A',state:'draft',scoreA:null,scoreB:null,winnerId:null};
  const synced=C.withMatches({...copy(seed),matches:[remote]});
  assert.ok(!synced.matches.some(m=>m.id==='mlbb-20261014-A1'));assert.deepEqual(synced.matches.find(m=>m.id===remote.id),remote);
- const group=E.groupTable(d,d.groups.find(g=>g.id==='ML-GRUP-A'));
+ const group=E.groupTable({...d,matches:d.matches.filter(m=>m.date.slice(0,10)<='2026-10-14')},d.groups.find(g=>g.id==='ML-GRUP-A'));
  assert.equal(group.rows.find(r=>r.unitId==='U05').won,1);
  assert.equal(group.rows.find(r=>r.unitId==='U01').lost,1);
+});
+test('Pembaruan 15 Oktober memuat juara tenis meja tanpa skor rekaan dan hasil MLBB terbaru',()=>{
+ const C=require('../frontend/content.js'),d=C.withMatches(copy(seed));
+ const winners=d.awards.filter(a=>a.sportId==='tenis-meja');
+ assert.deepEqual(winners.map(a=>[a.rank,a.unitId]),[[1,'U04'],[2,'U01'],[3,'U05']]);
+ assert.equal(E.medals(d).find(u=>u.id==='U04').gold,1);
+ assert.equal(E.medals(d).find(u=>u.id==='U01').silver,1);
+ assert.equal(E.medals(d).find(u=>u.id==='U05').bronze,1);
+ assert.equal(d.matches.find(m=>m.id==='tenis-meja-P6').scoreA,null);
+ assert.equal(C.withMatches(d).awards.length,d.awards.length);
+ const remote={...winners[0],unitId:'U02',state:'draft'};
+ const corrected=C.withMatches({...copy(seed),awards:[remote]});
+ assert.deepEqual(corrected.awards.find(a=>a.rank===1),remote);
+ for(const id of ['mlbb-20261015-A1','mlbb-20261015-B1'])assert.ok(E.validOfficial(d.matches.find(m=>m.id===id)));
+ const tennis=d.sports.find(s=>s.id==='tenis-lapangan');assert.ok(tennis.rules.some(r=>r.includes('8 game, tanpa deuce')));assert.ok(tennis.rules.some(r=>r.includes('8 game, menggunakan deuce')));
+ assert.equal(C.handbooks['gobak-voli-pantai'][0].pages,4);
 });
 test('Partai ketiga Tidak dimainkan tanpa skor setelah 2–0',()=>{const d=configured(),m=E.validateMatch(d,sample(d));assert.equal(m.scoreA,2);assert.equal(m.scoreB,0);assert.equal(m.parts[2].status,'Tidak dimainkan');const bad=sample(d);bad.parts[2].games=[{a:0,b:0}];assert.throws(()=>E.validateMatch(d,bad),/tanpa skor/);});
 test('Best of five tenis meja dan best of three bulutangkis berbeda',()=>{const d=configured();assert.equal(E.validateMatch(d,sample(d,'bulutangkis-P1')).scoreA,2);const bad=sample(d);bad.parts[0].games.pop();assert.throws(()=>E.validateMatch(d,bad),/belum selesai/);});
