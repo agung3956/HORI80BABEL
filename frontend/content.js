@@ -190,7 +190,7 @@
     const singing = root.HORI_SEED?.sports.find(sport => sport.id === 'menyanyi');
     const sports = payload.sports.map(sport => {
       if (sport.id === 'menyanyi' && singing && sport.rules.some(rule => rule.includes('menunggu panitia'))) return {...sport, period: singing.period, rules: [...singing.rules], notes: [...singing.notes]};
-      if (sport.id === 'tenis-lapangan') return {...sport, rules: [...tennisRules], notes: ['Format 8 game mengikuti hasil TM terbaru. Ketentuan lama 6/7 game dan tie-break tidak dijadikan acuan format pertandingan terbaru.']};
+      if (sport.id === 'tenis-lapangan') return {...sport, medalConfirmed: true, rules: [...tennisRules], notes: ['Juara tenis lapangan HORI 2026: KPP Bangka juara I, KPP Tanjung Pandan juara II, dan Kanwil DJPb juara III.', 'Format 8 game mengikuti hasil TM terbaru. Ketentuan lama 6/7 game dan tie-break tidak dijadikan acuan format pertandingan terbaru.']};
       if (sport.id === 'mlbb') return {...sport, rules: [...sport.rules.slice(0,2), 'Playoff menggunakan sistem single elimination karena waktu pelaksanaan terbatas.', ...sport.rules.slice(3)], notes: [...(sport.notes || []), 'Playoff dilaksanakan Rabu–Jumat. Final dan perebutan juara III menggunakan wasit independen. Livestream dapat dilakukan dengan delay 10 detik; panitia membuka bantuan teknis OBS atau Streamlabs.']};
       if (sport.id === 'gobak-voli-pantai') return {...sport, rules: [...gobakRules], notes: ['Aturan dan bagan ini khusus Gobak Sodor. Aturan Voli Pantai belum disertakan dalam pembaruan ini.']};
       if (sport.id === 'tenis-meja') return {...sport, medalConfirmed: true};
