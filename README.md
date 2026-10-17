@@ -2,6 +2,14 @@
 
 Tema: Indonesia Berdaulat, APBN Kuat.
 
+## Lisensi dan kontribusi
+
+Kode sumber proyek ini tersedia dengan [lisensi MIT](LICENSE). Anda dapat menggunakan ulang dan mengembangkan kode untuk pengelolaan jadwal, klasemen, serta hasil kegiatan lain. Kontribusi melalui issue dan pull request dipersilakan. Jelaskan masalah atau perubahan, hindari data pribadi, dan sertakan langkah verifikasi yang relevan. Semua kontributor mengikuti [Code of Conduct](CODE_OF_CONDUCT.md).
+
+Lisensi MIT berlaku untuk kode asli proyek dan dokumentasi teknis yang dibuat untuk kode tersebut. Logo resmi, merek, poster, foto, handbook, dokumen kegiatan, data peserta, dan materi pihak ketiga tidak termasuk dalam pemberian lisensi MIT. Materi tersebut tetap mengikuti hak dan izin pemiliknya. Font dan dependensi pihak ketiga mengikuti lisensinya masing-masing. Penggunaan ulang kode tidak memberikan hak untuk memakai identitas resmi atau menyatakan dukungan instansi.
+
+Website ini mendukung informasi kegiatan HORI 80 Babel tanpa layanan hosting atau dukungan berbayar. Penambahan lisensi dan Code of Conduct tidak berarti pengajuan Netlify Open Source sudah disetujui.
+
 ## Slideshow dan admin web (12 Oktober 2026)
 
 Enam poster pengguna tampil utuh pada beranda dengan tombol sebelumnya/berikutnya, jeda, pemilih poster, dan dialog ukuran penuh. Slideshow berhenti saat fokus/hover, tab tersembunyi, atau preferensi reduced motion aktif.
@@ -20,13 +28,13 @@ Endpoint publik hanya membaca hasil yang disaring. Tidak ada doPost; operasi adm
 
 Poster pengguna ditambahkan ke slideshow (total tujuh poster), kartu informasi beranda, dan halaman cabor. Technical meeting: Selasa, 13 Oktober 2026 pukul 14.00 WIB; lokasi belum tercantum pada poster. Agenda ID `TM-GOB-VOL` tersedia pada jadwal website dan seed backend. `content.js` melengkapi agenda ini bila endpoint Google lama belum memuatnya; bila Google memuat ID yang sama, koreksi tanggal, lokasi dan status admin dipertahankan tanpa duplikasi. Paket GS telah dihasilkan ulang untuk setup berikutnya; penayangan informasi di website tidak memerlukan redeploy Apps Script.
 
-## Hosting Netlify
+## Hosting Vercel
 
 Repositori: https://github.com/agung3956/HORI80BABEL
 
-Konfigurasi `netlify.toml` memublikasikan folder `frontend` langsung, tanpa build command atau instalasi dependensi. Hubungkan branch `main` di Netlify agar setiap push otomatis memperbarui website. Folder `backend`, `tests`, dan arsip ZIP tidak masuk ke website publik.
+Hosting aktif hanya Vercel: https://hori80babel.vercel.app/. Sejak 15 Oktober 2026, situs Netlify dinonaktifkan dan koneksi deploy GitHub di Netlify diputus. Jangan deploy atau mengaktifkan kembali situs Netlify.
 
-Folder lokal `.netlify` diabaikan oleh Git. Backend tetap dijalankan di Google Apps Script; Netlify hanya menghosting frontend. Isi `apiUrl` di `frontend/config.js` dengan URL deployment Google yang berakhir `/exec` setelah backend Google disiapkan.
+Vercel terhubung ke branch `main`. Konfigurasi `vercel.json` memublikasikan folder `frontend`, tanpa build command atau instalasi dependensi. Folder `backend`, `tests`, dan arsip ZIP tidak dipublikasikan. Backend tetap berjalan di Google Apps Script; `frontend/config.js` menyimpan URL Web App Google.
 
 ## Pembaruan konten 12 Oktober 2026
 
