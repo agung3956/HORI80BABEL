@@ -21,6 +21,11 @@ const sports=[
 {id:'menyanyi',name:'Menyanyi',type:'pending',icon:'mic',tag:'Penilaian juri',period:'Menunggu jadwal',medalEnabled:true,medalConfirmed:false,color:'#fff0f4',rules:['Jadwal, kategori, dan aturan rinci menunggu panitia.'],notes:[]},
 {id:'gobak-voli-pantai',name:'Gobak sodor / Voli pantai',type:'pending',icon:'sun',tag:'Entri sementara',period:'24 Oktober',medalEnabled:false,medalConfirmed:false,color:'#eef8f7',rules:['24 Oktober, 07.00–11.00 WIB, Pantai Temberan.','Satu entri sementara. Panitia perlu menetapkan apakah ini satu atau dua cabang.'],notes:['Panahan dan voli ekshibisi tidak masuk perolehan medali.']}
 ];
+const mlbbSport=sports.find(s=>s.id==='mlbb');
+mlbbSport.rules[2]='Playoff menggunakan sistem single elimination, karena waktu pelaksanaan terbatas.';
+mlbbSport.notes.push('Playoff dilaksanakan Rabu–Jumat. Final dan perebutan juara III menggunakan wasit independen yang bukan anggota tim bertanding. Livestream diperbolehkan dengan delay 10 detik untuk mencegah sniping; panitia membuka bantuan teknis OBS atau Streamlabs.');
+const tenisSport=sports.find(s=>s.id==='tenis-lapangan');
+tenisSport.notes.push('Hasil turnamen: juara 1 KPP Bangka, juara 2 KPP Tanjung Pandan, juara 3 Kanwil DJPb.');
 const matches=[];
 function teamBracket(sport, pairs, byes, times) {
 const desc=[['P1',pairs[0][0],pairs[0][1],null,null,'Babak awal'],['P2',pairs[1][0],pairs[1][1],null,null,'Babak awal'],['P3',null,byes[0],{match:sport+'-P1',outcome:'winner'},null,'Semifinal'],['P4',null,byes[1],{match:sport+'-P2',outcome:'winner'},null,'Semifinal'],['P5',null,null,{match:sport+'-P3',outcome:'loser'},{match:sport+'-P4',outcome:'loser'},'Juara III'],['P6',null,null,{match:sport+'-P3',outcome:'winner'},{match:sport+'-P4',outcome:'winner'},'Final']];
@@ -42,6 +47,7 @@ event('ML-REG','mlbb','Pendaftaran Mobile Legends','Pendaftaran','2026-10-07','2
 event('ML-TM','mlbb','Technical meeting & pembagian grup','Technical meeting','2026-10-09T16:00:00+07:00','2026-10-09T17:00:00+07:00','Microsoft Teams','Satu kapten atau perwakilan tiap tim. Informasi berdasarkan ND-1077/KPP.0306/2026.');
 event('ML-GROUP','mlbb','Babak grup Mobile Legends','Pertandingan','2026-10-12','2026-10-18',null,'Rentang pertandingan 15.00–23.59 WIB. Mengikuti handbook.',true);
 event('ML-PLAY','mlbb','Playoff Mobile Legends','Pertandingan','2026-10-19','2026-10-25',null,'Rentang pertandingan 15.00–23.59 WIB. Mengikuti handbook.',true);
+schedule[schedule.length-1].date='2026-10-21';schedule[schedule.length-1].endDate='2026-10-23';schedule[schedule.length-1].note='Playoff single elimination, Rabu–Jumat. Final dan perebutan juara III menggunakan wasit independen. Livestream dapat dilakukan dengan delay 10 detik; panitia membuka bantuan teknis OBS atau Streamlabs.';
 event('FOTO-SUBMIT','fotografi','Pengumpulan karya fotografi','Pengumpulan karya','2026-10-12','2026-10-26',null,'Mengikuti mekanisme pengumpulan resmi.',true);
 event('FOTO-JUDGE','fotografi','Penjurian fotografi','Penjurian','2026-10-27','2026-10-29',null,null,true);
 event('FOTO-ANNOUNCE','fotografi','Pengumuman pemenang fotografi','Pengumuman','2026-10-30',null,null,'Tanggal acuan KAK, dapat diperbarui panitia.',true);
@@ -51,6 +57,10 @@ event('BAKSOS-SERDANG','','Bakti sosial korban kebakaran Dusun Serdang','Bakti s
 event('TM-VOLI','voli','Technical meeting Voli HORI Babel 2026','Technical meeting','2026-10-13T16:00:00+07:00','2026-10-13T17:00:00+07:00','Microsoft Teams','Peserta: 1 orang (kapten atau perwakilan tim). Tautan rapat: https://teams.microsoft.com/meet/473449822352676?p=54pQfNiX2vUucALFOW. Detail ID dan kode sandi mengikuti undangan panitia.');
 event('TM-GOB-VOL','gobak-voli-pantai','Technical meeting Gobak Sodor & Voli Pantai HORI Babel 2026','Technical meeting','2026-10-13T14:00:00+07:00','2026-10-13T15:00:00+07:00','Microsoft Teams','Peserta: perwakilan dari setiap unit. Tautan rapat: http://s.kemenkeu.go.id/TMGobakSodor. Detail ID dan kode sandi mengikuti undangan panitia.');
 event('GOB-VOL','gobak-voli-pantai','Gobak sodor / Voli pantai','Pertandingan','2026-10-24T07:00:00+07:00','2026-10-24T11:00:00+07:00','Pantai Temberan');
-const data={settings:{title:'HORI 80',theme:'Indonesia Berdaulat, APBN Kuat',timezone:'Asia/Jakarta',standingsConfirmed:false,rankingMethod:'medals',mlPointsUnit:'unconfirmed',mlPercentFormula:'gameWins / (gameWins + gameLosses) × 100',mlConfirmed:false,photoScale:null,tennisTableDeuce:false,badmintonDeuce:false,tableOrderConfirmed:false,tablePartOrder:['Ganda putra','Ganda campuran','Ganda putri'],updatedAt:null,revision:0},units,sports,matches,schedule,awards:[],penalties:[],works:[],groups:[],participants:[],bracketSlots:[],judging:[]};
+matches.push({id:'ML-GROUP-A-2026-10-16',sportId:'mlbb',groupId:'ML-GROUP-A',stage:'Grup',label:'Grup A · 16 Oktober',teamA:'U04',teamB:'U05',winnerId:'U04',date:'2026-10-16T10:39:10+07:00',location:'Online',status:'Selesai',state:'official',scoreA:2,scoreB:0,parts:[],revision:0});
+const awards=[{id:'TL-AWARD-1',sportId:'tenis-lapangan',categoryId:'Ganda',rank:1,unitId:'U04',state:'official'},{id:'TL-AWARD-2',sportId:'tenis-lapangan',categoryId:'Ganda',rank:2,unitId:'U07',state:'official'},{id:'TL-AWARD-3',sportId:'tenis-lapangan',categoryId:'Ganda',rank:3,unitId:'U01',state:'official'}];
+const groups=[{id:'ML-GROUP-A',name:'Grup A',unitIds:['U05','U01','U04','U03']}];
+mlbbSport.medalConfirmed=true;tenisSport.medalConfirmed=true;
+const data={settings:{title:'HORI 80',theme:'Indonesia Berdaulat, APBN Kuat',timezone:'Asia/Jakarta',standingsConfirmed:true,rankingMethod:'medals',mlPointsUnit:'match',mlPercentFormula:'gameWins / (gameWins + gameLosses) × 100',mlConfirmed:true,photoScale:null,tennisTableDeuce:false,badmintonDeuce:false,tableOrderConfirmed:false,tablePartOrder:['Ganda putra','Ganda campuran','Ganda putri'],updatedAt:null,revision:0},units,sports,matches,schedule,awards,penalties:[],works:[],groups,participants:[],bracketSlots:[],judging:[]};
 root.HORI_SEED=data;if(typeof module==='object'&&module.exports)module.exports=data;
 })(typeof window==='undefined'?globalThis:window);

@@ -92,7 +92,16 @@
   ];
   function withSchedule(payload) {
     const existing = new Set(payload.schedule.map(event => event.id));
-    return {...payload, schedule: [...payload.schedule, ...scheduleExtras.filter(event => !existing.has(event.id)).map(event => ({...event, unitIds: [...event.unitIds]}))]};
+    const fallback= root.HORI_SEED||{};
+    const matchIds=new Set(payload.matches.map(match=>match.id));
+    const awardIds=new Set(payload.awards.map(award=>award.id));
+    const groupIds=new Set(payload.groups.map(group=>group.id));
+    const matches=[...payload.matches,...(fallback.matches||[]).filter(match=>match.state==='official'&&!matchIds.has(match.id))];
+    const awards=[...payload.awards,...(fallback.awards||[]).filter(award=>award.state==='official'&&!awardIds.has(award.id))];
+    const groups=[...payload.groups,...(fallback.groups||[]).filter(group=>!groupIds.has(group.id))];
+    const settings={...payload.settings};
+    if(fallback.settings?.mlConfirmed&&!settings.mlConfirmed){settings.mlConfirmed=true;settings.mlPointsUnit=fallback.settings.mlPointsUnit;}
+    return {...payload,settings,matches,awards,groups,schedule: [...payload.schedule, ...scheduleExtras.filter(event => !existing.has(event.id)).map(event => ({...event, unitIds: [...event.unitIds]}))]};
   }
   root.HORI_CONTENT = { handbooks, kickoff, posters, scheduleExtras, activitySlides, withSchedule };
   if (typeof module === 'object' && module.exports) module.exports = root.HORI_CONTENT;
