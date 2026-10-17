@@ -130,6 +130,8 @@
     {id:'mlbb-20261015-A1',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'15 Okt · Grup A',teamA:'U03',teamB:'U01',winnerId:'U03',scoreA:2,scoreB:0,state:'official',status:'Selesai',date:'2026-10-15',allDay:true,location:'Mobile Legends',parts:[],revision:0},
     {id:'mlbb-20261015-B1',sportId:'mlbb',groupId:'ML-GRUP-B',stage:'Grup',label:'15 Okt · Grup B',teamA:'U07',teamB:'U02',winnerId:'U02',scoreA:0,scoreB:2,state:'official',status:'Selesai',date:'2026-10-15',allDay:true,location:'Mobile Legends',parts:[],revision:0}
   );
+  matchExtras.push({id:'mlbb-20261016-A1',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'16 Okt · Grup A',teamA:'U04',teamB:'U05',winnerId:'U04',scoreA:2,scoreB:0,state:'official',status:'Selesai',date:'2026-10-16',allDay:true,location:'Mobile Legends',parts:[],revision:0});
+  scheduleExtras.push({id:'J-mlbb-20261016-A1',sportId:'mlbb',title:'Grup A · KPP Bangka 2–0 KPPN Pangkalpinang',type:'Pertandingan',date:'2026-10-16',endDate:null,allDay:true,location:'Mobile Legends',note:'Hasil pertandingan 16 Oktober 2026.',status:'Selesai',unitIds:['U04','U05'],revision:0});
   matchExtras.filter(m=>m.date==='2026-10-15').forEach(m=>scheduleExtras.push({
     id:'J-'+m.id,sportId:'mlbb',title:m.groupId==='ML-GRUP-A'?'Grup A · KPP Pangkalpinang 2–0 Kanwil DJPb Babel':'Grup B · KPP Tanjung Pandan 0–2 KPPBC Pangkalpinang',
     type:'Pertandingan',date:m.date,endDate:null,allDay:true,location:'Mobile Legends',note:'Hasil pertandingan 15 Oktober 2026.',status:'Selesai',unitIds:[m.teamA,m.teamB],revision:0
@@ -155,7 +157,10 @@
   const awardExtras = [
     {id:'TT-JUARA-20261015-1',sportId:'tenis-meja',categoryId:'beregu',rank:1,unitId:'U04',state:'official'},
     {id:'TT-JUARA-20261015-2',sportId:'tenis-meja',categoryId:'beregu',rank:2,unitId:'U01',state:'official'},
-    {id:'TT-JUARA-20261015-3',sportId:'tenis-meja',categoryId:'beregu',rank:3,unitId:'U05',state:'official'}
+    {id:'TT-JUARA-20261015-3',sportId:'tenis-meja',categoryId:'beregu',rank:3,unitId:'U05',state:'official'},
+    {id:'TL-JUARA-20261017-1',sportId:'tenis-lapangan',categoryId:'ganda',rank:1,unitId:'U04',state:'official'},
+    {id:'TL-JUARA-20261017-2',sportId:'tenis-lapangan',categoryId:'ganda',rank:2,unitId:'U07',state:'official'},
+    {id:'TL-JUARA-20261017-3',sportId:'tenis-lapangan',categoryId:'ganda',rank:3,unitId:'U01',state:'official'}
   ];
   const activitySlides = [
     {id: 'TL-TM-UPDATE', kind: 'event', eventId: 'TL-TM'},
@@ -186,6 +191,7 @@
     const sports = payload.sports.map(sport => {
       if (sport.id === 'menyanyi' && singing && sport.rules.some(rule => rule.includes('menunggu panitia'))) return {...sport, period: singing.period, rules: [...singing.rules], notes: [...singing.notes]};
       if (sport.id === 'tenis-lapangan') return {...sport, rules: [...tennisRules], notes: ['Format 8 game mengikuti hasil TM terbaru. Ketentuan lama 6/7 game dan tie-break tidak dijadikan acuan format pertandingan terbaru.']};
+      if (sport.id === 'mlbb') return {...sport, rules: [...sport.rules.slice(0,2), 'Playoff menggunakan sistem single elimination karena waktu pelaksanaan terbatas.', ...sport.rules.slice(3)], notes: [...sport.notes, 'Playoff dilaksanakan Rabu–Jumat. Final dan perebutan juara III menggunakan wasit independen. Livestream dapat dilakukan dengan delay 10 detik; panitia membuka bantuan teknis OBS atau Streamlabs.']};
       if (sport.id === 'gobak-voli-pantai') return {...sport, rules: [...gobakRules], notes: ['Aturan dan bagan ini khusus Gobak Sodor. Aturan Voli Pantai belum disertakan dalam pembaruan ini.']};
       if (sport.id === 'tenis-meja') return {...sport, medalConfirmed: true};
       return sport;
@@ -199,7 +205,7 @@
       {id: 'ML-GRUP-B', name: 'Grup B', unitIds: ['U02','U08','U07']}
     ];
     const awards = [...payload.awards, ...awardExtras.filter(award => !payload.awards.some(remote => remote.sportId === award.sportId && remote.categoryId === award.categoryId && remote.rank === award.rank))];
-    return {...payload, sports, groups, awards, settings: {...payload.settings, standingsConfirmed: true}, matches: [...matches, ...additions]};
+    return {...payload, sports, groups, awards, settings: {...payload.settings, standingsConfirmed: true, mlConfirmed: true, mlPointsUnit: 'match'}, matches: [...matches, ...additions]};
   }
   root.HORI_CONTENT = { handbooks, kickoff, posters, scheduleExtras, scheduleOverrides, matchExtras, activitySlides, withSchedule, withMatches };
   if (typeof module === 'object' && module.exports) module.exports = root.HORI_CONTENT;
