@@ -24,9 +24,10 @@ test('Pembaruan 15 Oktober memuat juara tenis meja tanpa skor rekaan dan hasil M
  const C=require('../frontend/content.js'),d=C.withMatches(copy(seed));
  const winners=d.awards.filter(a=>a.sportId==='tenis-meja');
  assert.deepEqual(winners.map(a=>[a.rank,a.unitId]),[[1,'U04'],[2,'U01'],[3,'U05']]);
- assert.equal(E.medals(d).find(u=>u.id==='U04').gold,1);
- assert.equal(E.medals(d).find(u=>u.id==='U01').silver,1);
- assert.equal(E.medals(d).find(u=>u.id==='U05').bronze,1);
+ const tableTennisMedals=E.medals({...d,awards:d.awards.filter(a=>a.sportId==='tenis-meja')});
+ assert.equal(tableTennisMedals.find(u=>u.id==='U04').gold,1);
+ assert.equal(tableTennisMedals.find(u=>u.id==='U01').silver,1);
+ assert.equal(tableTennisMedals.find(u=>u.id==='U05').bronze,1);
  assert.equal(d.matches.find(m=>m.id==='tenis-meja-P6').scoreA,null);
  assert.equal(C.withMatches(d).awards.length,d.awards.length);
  const remote={...winners[0],unitId:'U02',state:'draft'};
