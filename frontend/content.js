@@ -130,6 +130,20 @@
     {id:'mlbb-20261015-A1',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'15 Okt · Grup A',teamA:'U03',teamB:'U01',winnerId:'U03',scoreA:2,scoreB:0,state:'official',status:'Selesai',date:'2026-10-15',allDay:true,location:'Mobile Legends',parts:[],revision:0},
     {id:'mlbb-20261015-B1',sportId:'mlbb',groupId:'ML-GRUP-B',stage:'Grup',label:'15 Okt · Grup B',teamA:'U07',teamB:'U02',winnerId:'U02',scoreA:0,scoreB:2,state:'official',status:'Selesai',date:'2026-10-15',allDay:true,location:'Mobile Legends',parts:[],revision:0}
   );
+  matchExtras.push(
+    {id:'tl-20261017-R1',sportId:'tenis-lapangan',stage:'Babak awal',label:'Round 1',teamA:'U01',teamB:'U09',winnerId:'U01',scoreA:8,scoreB:0,format:'eight-game',state:'official',status:'Selesai',date:'2026-10-17',allDay:true,location:'Lapangan Tenis Komplek Bea Cukai Pasir Garam',parts:[],revision:0},
+    {id:'tl-20261017-R2A',sportId:'tenis-lapangan',stage:'Perempat final',label:'Round 2 · 1',teamA:'U06',teamB:null,sourceB:{match:'tl-20261017-R1',outcome:'winner'},winnerId:'U01',scoreA:0,scoreB:8,format:'eight-game',state:'official',status:'Selesai',date:'2026-10-17',allDay:true,location:'Lapangan Tenis Komplek Bea Cukai Pasir Garam',parts:[],revision:0},
+    {id:'tl-20261017-R2B',sportId:'tenis-lapangan',stage:'Perempat final',label:'Round 2 · 2',teamA:'U08',teamB:'U04',winnerId:'U04',scoreA:0,scoreB:8,format:'eight-game',state:'official',status:'Selesai',date:'2026-10-17',allDay:true,location:'Lapangan Tenis Komplek Bea Cukai Pasir Garam',parts:[],revision:0},
+    {id:'tl-20261017-R2C',sportId:'tenis-lapangan',stage:'Perempat final',label:'Round 2 · 3',teamA:'U05',teamB:'U03',winnerId:'U03',scoreA:3,scoreB:8,format:'eight-game',state:'official',status:'Selesai',date:'2026-10-17',allDay:true,location:'Lapangan Tenis Komplek Bea Cukai Pasir Garam',parts:[],revision:0},
+    {id:'tl-20261017-R2D',sportId:'tenis-lapangan',stage:'Perempat final',label:'Round 2 · 4',teamA:'U02',teamB:'U07',winnerId:'U07',scoreA:4,scoreB:8,format:'eight-game',state:'official',status:'Selesai',date:'2026-10-17',allDay:true,location:'Lapangan Tenis Komplek Bea Cukai Pasir Garam',parts:[],revision:0},
+    {id:'tl-20261018-SF1',sportId:'tenis-lapangan',stage:'Semifinal',label:'Semifinal 1',teamA:null,teamB:'U04',sourceA:{match:'tl-20261017-R2A',outcome:'winner'},winnerId:'U04',scoreA:4,scoreB:8,format:'eight-game',state:'official',status:'Selesai',date:'2026-10-18',allDay:true,location:'Lapangan Tenis Komplek Bea Cukai Pasir Garam',parts:[],revision:0},
+    {id:'tl-20261018-SF2',sportId:'tenis-lapangan',stage:'Semifinal',label:'Semifinal 2',teamA:'U03',teamB:'U07',winnerId:'U07',scoreA:3,scoreB:8,format:'eight-game',state:'official',status:'Selesai',date:'2026-10-18',allDay:true,location:'Lapangan Tenis Komplek Bea Cukai Pasir Garam',parts:[],revision:0},
+    {id:'tl-20261018-F',sportId:'tenis-lapangan',stage:'Final',label:'Final',teamA:'U04',teamB:'U07',winnerId:'U04',scoreA:8,scoreB:4,format:'eight-game',state:'official',status:'Selesai',date:'2026-10-18',allDay:true,location:'Lapangan Tenis Komplek Bea Cukai Pasir Garam',parts:[],revision:0}
+  );
+  matchExtras.filter(m=>m.sportId==='tenis-lapangan').forEach(m=>scheduleExtras.push({
+    id:'J-'+m.id,sportId:'tenis-lapangan',title:`${m.stage} · ${m.label}`,type:'Pertandingan',date:m.date,endDate:null,allDay:true,location:m.location,
+    note:`Hasil: ${m.scoreA}–${m.scoreB}. Pemenang: ${m.winnerId}.`,status:'Selesai',unitIds:[m.teamA,m.teamB].filter(Boolean),revision:0
+  }));
   matchExtras.push({id:'mlbb-20261016-A1',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'16 Okt · Grup A',teamA:'U04',teamB:'U05',winnerId:'U04',scoreA:2,scoreB:0,state:'official',status:'Selesai',date:'2026-10-16',allDay:true,location:'Mobile Legends',parts:[],revision:0});
   scheduleExtras.push({id:'J-mlbb-20261016-A1',sportId:'mlbb',title:'Grup A · KPP Bangka 2–0 KPPN Pangkalpinang',type:'Pertandingan',date:'2026-10-16',endDate:null,allDay:true,location:'Mobile Legends',note:'Hasil pertandingan 16 Oktober 2026.',status:'Selesai',unitIds:['U04','U05'],revision:0});
   matchExtras.push(

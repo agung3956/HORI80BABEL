@@ -42,7 +42,7 @@ function validateMatch(data,input){
   const need=m.stage==='Grand final'?3:2;
   if(!Number.isInteger(m.scoreA)||!Number.isInteger(m.scoreB)||m.scoreA<0||m.scoreB<0||Math.max(m.scoreA,m.scoreB)!==need||Math.min(m.scoreA,m.scoreB)>=need)throw Error('Skor seri tidak sesuai BO3/BO5.');
  } else if(s.id==='tenis-lapangan'){
-  const target=m.stage==='Final'?7:6,hi=Math.max(m.scoreA,m.scoreB),lo=Math.min(m.scoreA,m.scoreB);
+  const target=m.format==='eight-game'?8:(m.stage==='Final'?7:6),hi=Math.max(m.scoreA,m.scoreB),lo=Math.min(m.scoreA,m.scoreB);
   if(!Number.isInteger(m.scoreA)||!Number.isInteger(m.scoreB)||lo<0||hi!==target||lo>target-1)throw Error('Skor set tidak sesuai pro set lokal.');
   if(lo===target-1){const tb=m.tieBreak;if(!tb||!Number.isInteger(tb.a)||!Number.isInteger(tb.b))throw Error('Isi skor tie-break.');const h=Math.max(tb.a,tb.b),l=Math.min(tb.a,tb.b);if(!(h===7&&l<=5||h>7&&h<10&&h-l===2||h===10&&(l===8||l===9)))throw Error('Tie-break lokal tidak valid.');if((tb.a>tb.b)!==(m.scoreA>m.scoreB))throw Error('Pemenang tie-break tidak sesuai skor set.');}
  } else {if(!Number.isFinite(m.scoreA)||!Number.isFinite(m.scoreB)||m.scoreA===m.scoreB||m.scoreA<0||m.scoreB<0)throw Error('Isi skor akhir yang menentukan pemenang.');}
