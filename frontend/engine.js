@@ -61,6 +61,7 @@ function groupTable(data,group){
  rows.sort((a,b)=>b.points-a.points||b.percent-a.percent);
  const buckets=new Map();rows.forEach(r=>{const key=r.points+'|'+r.percent;if(!buckets.has(key))buckets.set(key,[]);buckets.get(key).push(r);});
  buckets.forEach(tied=>{if(tied.length===2){const head=matches.filter(m=>tied.every(r=>[m.teamA,m.teamB].includes(r.unitId)));const counts=tied.map(r=>head.filter(m=>m.winnerId===r.unitId).length);if(counts[0]!==counts[1]){const p=rows.indexOf(tied[0]);if(counts[1]>counts[0])rows.splice(p,2,tied[1],tied[0]);return;}}if(tied.length>1)tied.forEach(r=>r.tieUnresolved=true);});
+ if(group.manualOrder){const order=new Map(group.manualOrder.map((id,i)=>[id,i]));rows.sort((a,b)=>(order.get(a.unitId)??999)-(order.get(b.unitId)??999));}
  return {official:!!data.settings.mlConfirmed&&['match','game'].includes(data.settings.mlPointsUnit),rows};
 }
 const api={unit,sport,validOfficial,resolvedMatch,medals,photoScore,validateMatch,groupTable};root.HORI_ENGINE=api;if(typeof module==='object'&&module.exports)module.exports=api;

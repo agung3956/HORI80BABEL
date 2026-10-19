@@ -209,7 +209,7 @@
     const groups = (payload.groups.length ? payload.groups : [
       {id: 'ML-GRUP-A', name: 'Grup A', unitIds: ['U03','U01','U05','U04']},
       {id: 'ML-GRUP-B', name: 'Grup B', unitIds: ['U02','U08','U07']}
-    ]).map(group => group.id === 'ML-GRUP-A' ? {...group, unitIds: ['U03','U04','U01','U05']} : group);
+    ]).map(group => group.id === 'ML-GRUP-A' ? {...group, unitIds: ['U03','U04','U01','U05'], manualOrder: ['U03','U04','U01','U05']} : group);
     const awards = [...payload.awards, ...awardExtras.filter(award => !payload.awards.some(remote => remote.sportId === award.sportId && remote.categoryId === award.categoryId && remote.rank === award.rank))];
     return {...payload, sports, groups, awards, settings: {...payload.settings, standingsConfirmed: true, mlConfirmed: true, mlPointsUnit: 'match'}, matches: [...matches, ...additions]};
   }
