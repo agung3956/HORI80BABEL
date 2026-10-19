@@ -132,6 +132,12 @@
   );
   matchExtras.push({id:'mlbb-20261016-A1',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'16 Okt · Grup A',teamA:'U04',teamB:'U05',winnerId:'U04',scoreA:2,scoreB:0,state:'official',status:'Selesai',date:'2026-10-16',allDay:true,location:'Mobile Legends',parts:[],revision:0});
   scheduleExtras.push({id:'J-mlbb-20261016-A1',sportId:'mlbb',title:'Grup A · KPP Bangka 2–0 KPPN Pangkalpinang',type:'Pertandingan',date:'2026-10-16',endDate:null,allDay:true,location:'Mobile Legends',note:'Hasil pertandingan 16 Oktober 2026.',status:'Selesai',unitIds:['U04','U05'],revision:0});
+  matchExtras.push(
+    {id:'mlbb-playoff-SF1',sportId:'mlbb',stage:'Semifinal',label:'Semifinal 1',teamA:'U03',teamB:'U08',date:'2026-10-21',location:'Mobile Legends',state:'draft',status:'Terjadwal',scoreA:null,scoreB:null,parts:[],revision:0},
+    {id:'mlbb-playoff-SF2',sportId:'mlbb',stage:'Semifinal',label:'Semifinal 2',teamA:'U02',teamB:'U04',date:'2026-10-21',location:'Mobile Legends',state:'draft',status:'Terjadwal',scoreA:null,scoreB:null,parts:[],revision:0},
+    {id:'mlbb-playoff-F',sportId:'mlbb',stage:'Final',label:'Final',teamA:null,teamB:null,sourceA:{match:'mlbb-playoff-SF1',outcome:'winner'},sourceB:{match:'mlbb-playoff-SF2',outcome:'winner'},date:'2026-10-23',location:'Mobile Legends',state:'draft',status:'Terjadwal',scoreA:null,scoreB:null,parts:[],revision:0},
+    {id:'mlbb-playoff-3P',sportId:'mlbb',stage:'Juara III',label:'Perebutan juara III',teamA:null,teamB:null,sourceA:{match:'mlbb-playoff-SF1',outcome:'loser'},sourceB:{match:'mlbb-playoff-SF2',outcome:'loser'},date:'2026-10-23',location:'Mobile Legends',state:'draft',status:'Terjadwal',scoreA:null,scoreB:null,parts:[],revision:0}
+  );
   matchExtras.filter(m=>m.date==='2026-10-15').forEach(m=>scheduleExtras.push({
     id:'J-'+m.id,sportId:'mlbb',title:m.groupId==='ML-GRUP-A'?'Grup A · KPP Pangkalpinang 2–0 Kanwil DJPb Babel':'Grup B · KPP Tanjung Pandan 0–2 KPPBC Pangkalpinang',
     type:'Pertandingan',date:m.date,endDate:null,allDay:true,location:'Mobile Legends',note:'Hasil pertandingan 15 Oktober 2026.',status:'Selesai',unitIds:[m.teamA,m.teamB],revision:0
@@ -200,10 +206,10 @@
       const teams = {'tenis-meja-P5': ['U05','U02'], 'tenis-meja-P6': ['U01','U04']}[match.id];
       return teams && match.state === 'draft' && !match.needsReview ? {...match, teamA: teams[0], teamB: teams[1], sourceA: null, sourceB: null} : match;
     });
-    const groups = payload.groups.length ? payload.groups : [
+    const groups = (payload.groups.length ? payload.groups : [
       {id: 'ML-GRUP-A', name: 'Grup A', unitIds: ['U03','U01','U05','U04']},
       {id: 'ML-GRUP-B', name: 'Grup B', unitIds: ['U02','U08','U07']}
-    ];
+    ]).map(group => group.id === 'ML-GRUP-A' ? {...group, unitIds: ['U03','U04','U01','U05']} : group);
     const awards = [...payload.awards, ...awardExtras.filter(award => !payload.awards.some(remote => remote.sportId === award.sportId && remote.categoryId === award.categoryId && remote.rank === award.rank))];
     return {...payload, sports, groups, awards, settings: {...payload.settings, standingsConfirmed: true, mlConfirmed: true, mlPointsUnit: 'match'}, matches: [...matches, ...additions]};
   }
