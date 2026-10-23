@@ -111,7 +111,8 @@
     'J-bulutangkis-P4': {title: 'Semifinal 2 · KPP Pangkalpinang vs KPKNL Pangkalpinang', note: 'Wasit dan hakim garis: KPPN Pangkalpinang.'},
     'J-bulutangkis-P5': {title: 'Perebutan juara 3 · Kanwil DJPb vs kalah semifinal 2', note: 'Wasit dan hakim garis: pemenang semifinal 2.'},
     'J-bulutangkis-P6': {title: 'Final · KPP Bangka vs pemenang semifinal 2', note: 'Wasit dan hakim garis: pemenang perebutan juara 3.'},
-    'BAKSOS-DONASI-20261014': {date: '2026-10-14T16:00:00+07:00', title: 'Batas pengumpulan donasi bakti sosial Dusun Serdang', note: 'Dana dan pakaian layak pakai dikumpulkan melalui PIC KPP Pratama Pangkalpinang. Poster memuat rincian rekening donasi.'}
+    'BAKSOS-DONASI-20261014': {date: '2026-10-14T16:00:00+07:00', title: 'Batas pengumpulan donasi bakti sosial Dusun Serdang', note: 'Dana dan pakaian layak pakai dikumpulkan melalui PIC KPP Pratama Pangkalpinang. Poster memuat rincian rekening donasi.'},
+    'CATUR': {title: 'Hasil lomba catur HORI ke-80', status: 'Selesai', note: '10 pegawai terdaftar; 8 hadir dan 2 tidak hadir. Juara I Saiful Ragatna Berutu, Juara II Mohamad Hamzah, Juara III Fauzan Nugroho Prakoso.'}
   };
   const matchExtras = [{id:'mlbb-20261013-A1',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'13 Okt · A1',teamA:'U03',teamB:'U04',winnerId:'U03',scoreA:2,scoreB:0,state:'official',status:'Selesai',date:'2026-10-13',allDay:true,location:'Mobile Legends',parts:[],revision:0},{id:'mlbb-20261013-A2',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'13 Okt · A2',teamA:'U04',teamB:'U01',winnerId:'U01',scoreA:0,scoreB:2,state:'official',status:'Selesai',date:'2026-10-13',allDay:true,location:'Mobile Legends',parts:[],revision:0},{id:'mlbb-20261013-B1',sportId:'mlbb',groupId:'ML-GRUP-B',stage:'Grup',label:'13 Okt · B1',teamA:'U08',teamB:'U07',winnerId:'U08',scoreA:2,scoreB:0,state:'official',status:'Selesai',date:'2026-10-13',allDay:true,location:'Mobile Legends',parts:[],revision:0}];
   matchExtras.push({
@@ -129,7 +130,8 @@
   });
   posters.push(
     {path: 'assets/posters/bagan-tenis-lapangan.png', title: 'Bagan tenis lapangan hasil technical meeting', sportId: 'tenis-lapangan'},
-    {path: 'assets/posters/bagan-gobak-sodor.jpg', title: 'Bagan perlombaan Gobak Sodor', sportId: 'gobak-voli-pantai'}
+    {path: 'assets/posters/bagan-gobak-sodor.jpg', title: 'Bagan perlombaan Gobak Sodor', sportId: 'gobak-voli-pantai'},
+    {path: 'assets/posters/hasil-catur-hori-80.jpg', title: 'Hasil lomba catur HORI ke-80', sportId: 'catur'}
   );
   matchExtras.push(
     {id:'mlbb-20261015-A1',sportId:'mlbb',groupId:'ML-GRUP-A',stage:'Grup',label:'15 Okt · Grup A',teamA:'U03',teamB:'U01',winnerId:'U03',scoreA:2,scoreB:0,state:'official',status:'Selesai',date:'2026-10-15',allDay:true,location:'Mobile Legends',parts:[],revision:0},
@@ -244,6 +246,9 @@
     {id:'TL-JUARA-20261017-1',sportId:'tenis-lapangan',categoryId:'ganda',rank:1,unitId:'U04',state:'official'},
     {id:'TL-JUARA-20261017-2',sportId:'tenis-lapangan',categoryId:'ganda',rank:2,unitId:'U07',state:'official'},
     {id:'TL-JUARA-20261017-3',sportId:'tenis-lapangan',categoryId:'ganda',rank:3,unitId:'U01',state:'official'},
+    {id:'CATUR-JUARA-20261023-1',sportId:'catur',categoryId:'perorangan',rank:1,unitId:'U01',state:'official'},
+    {id:'CATUR-JUARA-20261023-2',sportId:'catur',categoryId:'perorangan',rank:2,unitId:'U04',state:'official'},
+    {id:'CATUR-JUARA-20261023-3',sportId:'catur',categoryId:'perorangan',rank:3,unitId:'U03',state:'official'},
     {id:'BT-JUARA-20261022-1',sportId:'bulutangkis',categoryId:'beregu',rank:1,unitId:'U03',state:'official'},
     {id:'BT-JUARA-20261022-2',sportId:'bulutangkis',categoryId:'beregu',rank:2,unitId:'U04',state:'official'},
     {id:'BT-JUARA-20261022-3',sportId:'bulutangkis',categoryId:'beregu',rank:3,unitId:'U01',state:'official'}
@@ -281,6 +286,7 @@
       if (sport.id === 'gobak-voli-pantai') return {...sport, name:'Gobak Sodor & Voli Pantai', period:'24 Oktober · Pantai Temberan', rules: [...gobakRules], notes: ['Bersih-bersih pantai dimulai pukul 08.00 WIB dan lomba Gobak Sodor pukul 09.00 WIB. Aturan Voli Pantai belum disertakan dalam pembaruan ini.']};
       if (sport.id === 'tenis-meja') return {...sport, medalConfirmed: true};
       if (sport.id === 'bulutangkis') return {...sport, medalConfirmed: true, notes: ['Juara akhir: KPP Pangkalpinang, KPP Bangka, dan Kanwil DJPb Babel. Skor semifinal dan final tidak disampaikan.']};
+      if (sport.id === 'catur') return {...sport, name:'Catur', period:'Selesai · 23 Oktober', medalConfirmed:true, rules:['Jumlah peserta: 10 pegawai; peserta hadir 8 pegawai dan tidak hadir 2 pegawai.','Juara I: Saiful Ragatna Berutu (Kanwil DJPb Provinsi Bangka Belitung).','Juara II: Mohamad Hamzah (KPP Pratama Bangka).','Juara III: Fauzan Nugroho Prakoso (KPP Pratama Pangkal Pinang).'], notes:['Selamat kepada para pemenang dan terima kasih kepada seluruh peserta yang menjunjung sportivitas.']};
       if (sport.id === 'voli') return {...sport, period:'23 Oktober · Lapangan KPP Pratama Bangka', rules:['Jadwal 23 Oktober 2026: KPKNL Pangkalpinang vs Kanwil DJPb Babel pukul 07.00 WIB; KPPN Pangkalpinang vs KPPBC Pangkalpinang pukul 16.00 WIB.','Hasil dan klasemen penyisihan Grup A dan B mengikuti tabel terbaru panitia. Pertandingan yang belum dimainkan tetap menunggu hasil resmi.'], notes:['Peringkat yang memiliki poin dan selisih bola sama ditandai seri sampai pertandingan penentu selesai.']};
       return sport;
     });
