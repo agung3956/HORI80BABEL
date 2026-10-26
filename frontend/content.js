@@ -22,6 +22,9 @@
     embedUrl: 'https://www.instagram.com/p/DeRR1KwHyo_/embed/'
   };
   const posters = [
+  {"path":"assets/posters/donor-darah-hori-80.jpg","title":"Donor darah HORI ke-80 · 27 Oktober 2026","sportId":""},
+  {"path":"assets/posters/volleyball-semifinal-26-oktober.jpg","title":"Semifinal bola voli · 26 Oktober 2026","sportId":"voli"},
+  {"path":"assets/posters/mlbb-klasemen-15-oktober.jpg","title":"Klasemen Mobile Legends · 15 Oktober 2026","sportId":"mlbb"},
   {
     "path": "assets/posters/turnamen-tenis.png",
     "title": "Turnamen tenis HORI 2026",
@@ -68,6 +71,12 @@
     date: '2026-10-15T08:00:00+07:00', endDate: null, allDay: false,
     location: 'Dusun Serdang, Desa Jelutung II, Kabupaten Bangka Selatan',
     note: 'Pengumpulan donasi paling lambat Rabu, 14 Oktober 2026 pukul 16.00 WIB melalui PIC KPP Pratama Pangkalpinang. Donasi dana diprioritaskan untuk sembako dan kebutuhan lainnya; pakaian layak pakai di lokasi sudah sangat menumpuk.',
+    status: 'Terjadwal', unitIds: [], revision: 0
+  }, {
+    id: 'DONOR-DARAH-HORI80', sportId: '', title: 'Donor darah HORI ke-80', type: 'Donor darah',
+    date: '2026-10-27T07:30:00+07:00', endDate: null, allDay: false,
+    location: 'Aula KPKNL Pangkalpinang, Jl. Ahmad Yani No. 8, Tamansari, Pangkalpinang',
+    note: 'Pendaftaran paling lambat 26 Oktober 2026 melalui http://s.kemenkeu.go.id/DonorHORI80Babel. Kegiatan diselenggarakan bersama UDD PMI Kota Pangkalpinang.',
     status: 'Terjadwal', unitIds: [], revision: 0
   }, {
     id: 'TM-VOLI', sportId: 'voli',
@@ -211,9 +220,16 @@
     {id:'VOLI-A1',group:'A',teamA:'U04',teamB:'U05',sets:[{a:25,b:21},{a:25,b:18}]},
     {id:'VOLI-A2',group:'A',teamA:'U04',teamB:'U02',sets:[{a:18,b:25},{a:22,b:25}]},
     {id:'VOLI-B1',group:'B',teamA:'U03',teamB:'U06',sets:[{a:25,b:17},{a:25,b:22}]},
-    {id:'VOLI-B2',group:'B',teamA:'U03',teamB:'U01',sets:[{a:25,b:18},{a:25,b:21}]}
+    {id:'VOLI-B2',group:'B',teamA:'U03',teamB:'U01',sets:[{a:25,b:18},{a:25,b:21}]},
+    {id:'VOLI-A3',group:'A',teamA:'U05',teamB:'U02',sets:[{a:20,b:25},{a:19,b:25}]},
+    {id:'VOLI-B3',group:'B',teamA:'U06',teamB:'U01',sets:[{a:26,b:28},{a:18,b:25}]}
   ];
   volleyballResults.forEach(m=>{const a=m.sets.filter(s=>s.a>s.b).length,b=m.sets.length-a;matchExtras.push({...matchDefaults,...m,sportId:'voli',stage:'Grup '+m.group,label:'Penyisihan Grup '+m.group,scoreA:a,scoreB:b,winnerId:a>b?m.teamA:m.teamB,location:'Lapangan KPP Pratama Bangka'});});
+  matchExtras.push(
+    {...matchDefaults,id:'VOLI-SF1',sportId:'voli',stage:'Semifinal',label:'Semifinal 1',teamA:'U02',teamB:'U01',date:'2026-10-26T16:00:00+07:00',location:'Lapangan KPP Pratama Bangka'},
+    {...matchDefaults,id:'VOLI-SF2',sportId:'voli',stage:'Semifinal',label:'Semifinal 2',teamA:'U03',teamB:'U04',date:'2026-10-26T17:00:00+07:00',location:'Lapangan KPP Pratama Bangka'}
+  );
+  matchExtras.filter(m=>m.sportId==='voli'&&m.stage==='Semifinal').forEach(m=>scheduleExtras.push({id:'J-'+m.id,sportId:'voli',title:`${m.stage} · ${m.label}`,type:'Pertandingan',date:m.date,endDate:null,allDay:false,location:m.location,note:'Jadwal semifinal sesuai poster panitia.',status:'Terjadwal',unitIds:[m.teamA,m.teamB],revision:0}));
   function volleyballTable(group) {
     const ids=group==='A'?['U02','U04','U05']:['U03','U06','U01'];
     return ids.map(unitId=>{const row={unitId,played:0,won:0,lost:0,points:0,setWins:0,setLosses:0,ballWins:0,ballLosses:0};
@@ -240,6 +256,12 @@
     'Bagan: KPP Pangkalpinang (A) mendapat bye dan bertemu pemenang KPP Bangka (B) vs KPPBC Pangkalpinang (C). Kanwil DJPb Babel (F) mendapat bye dan bertemu pemenang KPPN Pangkalpinang (D) vs KPKNL Pangkalpinang (E). Kedua pemenang bertemu di final.'
   ];
   const awardExtras = [
+    {id:'MLBB-JUARA-20261025-1',sportId:'mlbb',categoryId:'beregu',rank:1,unitId:'U02',state:'official'},
+    {id:'MLBB-JUARA-20261025-2',sportId:'mlbb',categoryId:'beregu',rank:2,unitId:'U03',state:'official'},
+    {id:'MLBB-JUARA-20261025-3',sportId:'mlbb',categoryId:'beregu',rank:3,unitId:'U08',state:'official'},
+    {id:'GOB-JUARA-20261025-1',sportId:'gobak-voli-pantai',categoryId:'gobak-sodor',rank:1,unitId:'U02',state:'official'},
+    {id:'GOB-JUARA-20261025-2',sportId:'gobak-voli-pantai',categoryId:'gobak-sodor',rank:2,unitId:'U05',state:'official'},
+    {id:'GOB-JUARA-20261025-3',sportId:'gobak-voli-pantai',categoryId:'gobak-sodor',rank:3,unitId:'U04',state:'official'},
     {id:'TT-JUARA-20261015-1',sportId:'tenis-meja',categoryId:'beregu',rank:1,unitId:'U04',state:'official'},
     {id:'TT-JUARA-20261015-2',sportId:'tenis-meja',categoryId:'beregu',rank:2,unitId:'U01',state:'official'},
     {id:'TT-JUARA-20261015-3',sportId:'tenis-meja',categoryId:'beregu',rank:3,unitId:'U05',state:'official'},
@@ -285,6 +307,7 @@
       if (sport.id === 'mlbb') return {...sport, rules: [...sport.rules.slice(0,2), 'Playoff menggunakan sistem single elimination karena waktu pelaksanaan terbatas.', ...sport.rules.slice(3)], notes: [...(sport.notes || []), 'Playoff dilaksanakan Rabu–Jumat. Final dan perebutan juara III menggunakan wasit independen. Livestream dapat dilakukan dengan delay 10 detik; panitia membuka bantuan teknis OBS atau Streamlabs.']};
       if (sport.id === 'gobak-voli-pantai') return {...sport, name:'Gobak Sodor & Voli Pantai', period:'24 Oktober · Pantai Temberan', rules: [...gobakRules], notes: ['Bersih-bersih pantai dimulai pukul 08.00 WIB dan lomba Gobak Sodor pukul 09.00 WIB. Aturan Voli Pantai belum disertakan dalam pembaruan ini.']};
       if (sport.id === 'tenis-meja') return {...sport, medalConfirmed: true};
+      if (sport.id === 'gobak-voli-pantai') return {...sport, medalEnabled: true, medalConfirmed: true};
       if (sport.id === 'bulutangkis') return {...sport, medalConfirmed: true, notes: ['Juara akhir: KPP Pangkalpinang, KPP Bangka, dan Kanwil DJPb Babel. Skor semifinal dan final tidak disampaikan.']};
       if (sport.id === 'catur') return {...sport, name:'Catur', period:'Selesai · 23 Oktober', medalConfirmed:true, rules:['Jumlah peserta: 10 pegawai; peserta hadir 8 pegawai dan tidak hadir 2 pegawai.','Juara I: Saiful Ragatna Berutu (Kanwil DJPb Provinsi Bangka Belitung).','Juara II: Mohamad Hamzah (KPP Pratama Bangka).','Juara III: Fauzan Nugroho Prakoso (KPP Pratama Pangkal Pinang).'], notes:['Selamat kepada para pemenang dan terima kasih kepada seluruh peserta yang menjunjung sportivitas.']};
       if (sport.id === 'voli') return {...sport, period:'23 Oktober · Lapangan KPP Pratama Bangka', rules:['Jadwal 23 Oktober 2026: KPKNL Pangkalpinang vs Kanwil DJPb Babel pukul 07.00 WIB; KPPN Pangkalpinang vs KPPBC Pangkalpinang pukul 16.00 WIB.','Hasil dan klasemen penyisihan Grup A dan B mengikuti tabel terbaru panitia. Pertandingan yang belum dimainkan tetap menunggu hasil resmi.'], notes:['Peringkat yang memiliki poin dan selisih bola sama ditandai seri sampai pertandingan penentu selesai.']};
