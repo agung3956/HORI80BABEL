@@ -56,7 +56,7 @@
     "sportId": "tenis-meja"
   }
 ];
-  posters.push({path: 'assets/posters/tm-gobak-sodor-voli-pantai.png', title: 'Technical meeting Gobak Sodor & Voli Pantai', sportId: 'gobak-voli-pantai'});
+  posters.push({path: 'assets/posters/tm-gobak-sodor-voli-pantai.png', title: 'Technical meeting Gobak Sodor', sportId: 'gobak-voli-pantai'});
   posters.push(
     {path: 'assets/posters/donasi-baksos-serdang.jpg', title: 'Pengumpulan donasi bakti sosial korban kebakaran', sportId: ''},
     {path: 'assets/posters/lomba-menyanyi-hori-80.jpg', title: 'Lomba menyanyi HORI ke-80', sportId: 'menyanyi'},
@@ -87,7 +87,7 @@
     status: 'Terjadwal', unitIds: [], revision: 0
   }, {
     id: 'TM-GOB-VOL', sportId: 'gobak-voli-pantai',
-    title: 'Technical meeting Gobak Sodor & Voli Pantai HORI Babel 2026', type: 'Technical meeting',
+    title: 'Technical meeting Gobak Sodor HORI Babel 2026', type: 'Technical meeting',
     date: '2026-10-13T14:00:00+07:00', endDate: '2026-10-13T15:00:00+07:00', allDay: false,
     location: 'Microsoft Teams',
     note: 'Peserta: perwakilan dari setiap unit. Tautan rapat: http://s.kemenkeu.go.id/TMGobakSodor. Detail ID dan kode sandi mengikuti undangan panitia.',
@@ -256,12 +256,12 @@
     'Bagan: KPP Pangkalpinang (A) mendapat bye dan bertemu pemenang KPP Bangka (B) vs KPPBC Pangkalpinang (C). Kanwil DJPb Babel (F) mendapat bye dan bertemu pemenang KPPN Pangkalpinang (D) vs KPKNL Pangkalpinang (E). Kedua pemenang bertemu di final.'
   ];
   const awardExtras = [
-    {id:'MLBB-JUARA-20261025-1',sportId:'mlbb',categoryId:'beregu',rank:1,unitId:'U02',state:'official'},
-    {id:'MLBB-JUARA-20261025-2',sportId:'mlbb',categoryId:'beregu',rank:2,unitId:'U03',state:'official'},
-    {id:'MLBB-JUARA-20261025-3',sportId:'mlbb',categoryId:'beregu',rank:3,unitId:'U08',state:'official'},
-    {id:'GOB-JUARA-20261025-1',sportId:'gobak-voli-pantai',categoryId:'gobak-sodor',rank:1,unitId:'U02',state:'official'},
-    {id:'GOB-JUARA-20261025-2',sportId:'gobak-voli-pantai',categoryId:'gobak-sodor',rank:2,unitId:'U05',state:'official'},
-    {id:'GOB-JUARA-20261025-3',sportId:'gobak-voli-pantai',categoryId:'gobak-sodor',rank:3,unitId:'U04',state:'official'},
+    {id:'MLBB-JUARA-20261025-1',sportId:'mlbb',categoryId:'beregu',rank:1,unitId:'U02',state:'official',exhibition:true},
+    {id:'MLBB-JUARA-20261025-2',sportId:'mlbb',categoryId:'beregu',rank:2,unitId:'U03',state:'official',exhibition:true},
+    {id:'MLBB-JUARA-20261025-3',sportId:'mlbb',categoryId:'beregu',rank:3,unitId:'U08',state:'official',exhibition:true},
+    {id:'GOB-JUARA-20261025-1',sportId:'gobak-voli-pantai',categoryId:'gobak-sodor',rank:1,unitId:'U02',state:'official',exhibition:true},
+    {id:'GOB-JUARA-20261025-2',sportId:'gobak-voli-pantai',categoryId:'gobak-sodor',rank:2,unitId:'U05',state:'official',exhibition:true},
+    {id:'GOB-JUARA-20261025-3',sportId:'gobak-voli-pantai',categoryId:'gobak-sodor',rank:3,unitId:'U04',state:'official',exhibition:true},
     {id:'TT-JUARA-20261015-1',sportId:'tenis-meja',categoryId:'beregu',rank:1,unitId:'U04',state:'official'},
     {id:'TT-JUARA-20261015-2',sportId:'tenis-meja',categoryId:'beregu',rank:2,unitId:'U01',state:'official'},
     {id:'TT-JUARA-20261015-3',sportId:'tenis-meja',categoryId:'beregu',rank:3,unitId:'U05',state:'official'},
@@ -305,7 +305,7 @@
       if (sport.id === 'menyanyi') return {...sport, name:'Lomba Karaoke', period:'27 & 29 Oktober · 15.30 WIB', rules:[...karaokeRules], notes:['Pendaftaran ditutup 20 Oktober 2026. Video karaoke dikirim paling lambat 26 Oktober 2026 pukul 15.00 WIB.']};
       if (sport.id === 'tenis-lapangan') return {...sport, medalConfirmed:true, rules: [...tennisRules], notes: ['Juara tenis lapangan HORI 2026: KPP Bangka juara I, KPP Tanjung Pandan juara II, dan Kanwil DJPb juara III.', 'Format 8 game mengikuti hasil TM terbaru. Ketentuan lama 6/7 game dan tie-break tidak dijadikan acuan format pertandingan terbaru.']};
       if (sport.id === 'mlbb') return {...sport, rules: [...sport.rules.slice(0,2), 'Playoff menggunakan sistem single elimination karena waktu pelaksanaan terbatas.', ...sport.rules.slice(3)], notes: [...(sport.notes || []), 'Playoff dilaksanakan Rabu–Jumat. Final dan perebutan juara III menggunakan wasit independen. Livestream dapat dilakukan dengan delay 10 detik; panitia membuka bantuan teknis OBS atau Streamlabs.']};
-      if (sport.id === 'gobak-voli-pantai') return {...sport, name:'Gobak Sodor & Voli Pantai', period:'24 Oktober · Pantai Temberan', rules: [...gobakRules], notes: ['Bersih-bersih pantai dimulai pukul 08.00 WIB dan lomba Gobak Sodor pukul 09.00 WIB. Aturan Voli Pantai belum disertakan dalam pembaruan ini.']};
+      if (sport.id === 'gobak-voli-pantai') return {...sport, name:'Gobak Sodor', period:'24 Oktober · Pantai Temberan', rules: [...gobakRules], notes: ['Bersih-bersih pantai dimulai pukul 08.00 WIB dan lomba Gobak Sodor pukul 09.00 WIB.']};
       if (sport.id === 'tenis-meja') return {...sport, medalConfirmed: true};
       if (sport.id === 'gobak-voli-pantai') return {...sport, medalEnabled: true, medalConfirmed: true};
       if (sport.id === 'bulutangkis') return {...sport, medalConfirmed: true, notes: ['Juara akhir: KPP Pangkalpinang, KPP Bangka, dan Kanwil DJPb Babel. Skor semifinal dan final tidak disampaikan.']};
