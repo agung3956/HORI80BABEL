@@ -256,6 +256,12 @@
     'Bagan: KPP Pangkalpinang (A) mendapat bye dan bertemu pemenang KPP Bangka (B) vs KPPBC Pangkalpinang (C). Kanwil DJPb Babel (F) mendapat bye dan bertemu pemenang KPPN Pangkalpinang (D) vs KPKNL Pangkalpinang (E). Kedua pemenang bertemu di final.'
   ];
   const awardExtras = [
+    {id:'VOLI-JUARA-20261029-1',sportId:'voli',categoryId:'beregu',rank:1,unitId:'U02',state:'official'},
+    {id:'VOLI-JUARA-20261029-2',sportId:'voli',categoryId:'beregu',rank:2,unitId:'U03',state:'official'},
+    {id:'VOLI-JUARA-20261029-3',sportId:'voli',categoryId:'beregu',rank:3,unitId:'U04',state:'official'},
+    {id:'FOTO-JUARA-20261029-1',sportId:'fotografi',categoryId:'utama',rank:1,unitId:'U04',state:'official'},
+    {id:'FOTO-JUARA-20261029-2',sportId:'fotografi',categoryId:'utama',rank:2,unitId:'U02',state:'official'},
+    {id:'FOTO-JUARA-20261029-3',sportId:'fotografi',categoryId:'utama',rank:3,unitId:'U03',state:'official'},
     {id:'MLBB-JUARA-20261025-1',sportId:'mlbb',categoryId:'beregu',rank:1,unitId:'U02',state:'official'},
     {id:'MLBB-JUARA-20261025-2',sportId:'mlbb',categoryId:'beregu',rank:2,unitId:'U03',state:'official'},
     {id:'MLBB-JUARA-20261025-3',sportId:'mlbb',categoryId:'beregu',rank:3,unitId:'U08',state:'official'},
@@ -309,7 +315,8 @@
       if (sport.id === 'tenis-meja') return {...sport, medalConfirmed: true};
       if (sport.id === 'bulutangkis') return {...sport, medalConfirmed: true, notes: ['Juara akhir: KPP Pangkalpinang, KPP Bangka, dan Kanwil DJPb Babel. Skor semifinal dan final tidak disampaikan.']};
       if (sport.id === 'catur') return {...sport, name:'Catur', period:'Selesai · 23 Oktober', medalConfirmed:true, rules:['Jumlah peserta: 10 pegawai; peserta hadir 8 pegawai dan tidak hadir 2 pegawai.','Juara I: Saiful Ragatna Berutu (Kanwil DJPb Provinsi Bangka Belitung).','Juara II: Mohamad Hamzah (KPP Pratama Bangka).','Juara III: Fauzan Nugroho Prakoso (KPP Pratama Pangkal Pinang).'], notes:['Selamat kepada para pemenang dan terima kasih kepada seluruh peserta yang menjunjung sportivitas.']};
-      if (sport.id === 'voli') return {...sport, period:'23 Oktober · Lapangan KPP Pratama Bangka', rules:['Jadwal 23 Oktober 2026: KPKNL Pangkalpinang vs Kanwil DJPb Babel pukul 07.00 WIB; KPPN Pangkalpinang vs KPPBC Pangkalpinang pukul 16.00 WIB.','Hasil dan klasemen penyisihan Grup A dan B mengikuti tabel terbaru panitia. Pertandingan yang belum dimainkan tetap menunggu hasil resmi.'], notes:['Peringkat yang memiliki poin dan selisih bola sama ditandai seri sampai pertandingan penentu selesai.']};
+      if (sport.id === 'voli') return {...sport, medalEnabled:true, medalConfirmed:true, period:'Selesai · Hasil diterima 29 Oktober 2026', rules:['Hasil akhir: Juara I KPPBC Pangkalpinang, Juara II KPP Pangkalpinang, dan Juara III KPP Bangka.','Hasil dan klasemen penyisihan Grup A dan B tetap tersedia sebagai riwayat pertandingan.'], notes:['Skor babak akhir belum disampaikan panitia. Perolehan medali mengikuti penetapan juara.']};
+      if (sport.id === 'fotografi') return {...sport, medalEnabled:true, medalConfirmed:true, period:'Selesai · Hasil juara tersedia', rules:sport.rules.map(rule=>rule==='Juara I–III mengikuti pengesahan. Kontribusi medali belum diaktifkan.'?'Juara I–III telah ditetapkan dan dihitung dalam klasemen medali.':rule), notes:['Hasil juara telah diterima pada 29 Oktober 2026, lebih awal dari jadwal pengumuman 30 Oktober dalam KAK.','Juara I KPP Bangka; Juara II KPPBC Pangkalpinang; Juara III KPP Pangkalpinang.']};
       return sport;
     });
     const badmintonById = new Map(badmintonUpdates.map(update => [update.id, update]));
