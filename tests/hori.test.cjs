@@ -98,7 +98,7 @@ test('Juara MLBB dan Gobak Sodor masuk klasemen umum dan filter cabor tanpa dupl
  assert.deepEqual(d.awards.filter(a=>a.sportId==='mlbb').map(a=>[a.rank,a.unitId]),[[1,'U02'],[2,'U03'],[3,'U08']]);
  assert.deepEqual(d.awards.filter(a=>a.sportId==='gobak-voli-pantai').map(a=>[a.rank,a.unitId]),[[1,'U03'],[2,'U05'],[3,'U04']]);
  for(const id of ['mlbb','gobak-voli-pantai'])assert.equal(medals(d,id).reduce((n,r)=>n+r.total,0),3);
- const expected=[['U04',3,2,2,7],['U03',2,2,2,6],['U02',2,1,0,3],['U01',1,1,2,4],['U05',0,1,1,2],['U07',0,1,0,1],['U08',0,0,1,1],['U06',0,0,0,0],['U09',0,0,0,0]];
+ const expected=[['U04',3,3,2,8],['U03',3,2,3,8],['U02',2,1,0,3],['U01',1,1,2,4],['U05',0,1,1,2],['U07',0,1,0,1],['U08',0,0,1,1],['U06',0,0,0,0],['U09',0,0,0,0]];
  for(const payload of [d,C.withMatches(d)])assert.deepEqual(medals(payload).map(r=>[r.id,r.gold,r.silver,r.bronze,r.total]),expected);
 });
 
@@ -108,6 +108,16 @@ test('Juara voli dan fotografi 29 Oktober menambah enam medali tanpa duplikasi',
   assert.deepEqual(d.awards.filter(a=>a.sportId===sportId).map(a=>a.unitId),units);
   assert.equal(E.medals(d,sportId).reduce((n,r)=>n+r.total,0),3);
  }
- assert.equal(E.medals(d).reduce((n,r)=>n+r.total,0),24);
+ assert.equal(E.medals(d).reduce((n,r)=>n+r.total,0),27);
+ assert.deepEqual(E.medals(C.withMatches(d)),E.medals(d));
+});
+
+test('Karaoke menghitung emas dan perunggu unit yang sama tanpa menggandakan setelah sinkronisasi',()=>{
+ const C=require('../frontend/content.js'),d=C.withMatches(copy(seed));
+ assert.deepEqual(d.awards.filter(a=>a.sportId==='menyanyi').map(a=>[a.rank,a.unitId]),[[1,'U03'],[2,'U04'],[3,'U03']]);
+ const rows=E.medals(d,'menyanyi');
+ assert.equal(rows.find(r=>r.id==='U03').gold,1);
+ assert.equal(rows.find(r=>r.id==='U03').bronze,1);
+ assert.equal(rows.find(r=>r.id==='U04').silver,1);
  assert.deepEqual(E.medals(C.withMatches(d)),E.medals(d));
 });

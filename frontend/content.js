@@ -256,6 +256,9 @@
     'Bagan: KPP Pangkalpinang (A) mendapat bye dan bertemu pemenang KPP Bangka (B) vs KPPBC Pangkalpinang (C). Kanwil DJPb Babel (F) mendapat bye dan bertemu pemenang KPPN Pangkalpinang (D) vs KPKNL Pangkalpinang (E). Kedua pemenang bertemu di final.'
   ];
   const awardExtras = [
+    {id:'KARAOKE-JUARA-20261029-1',sportId:'menyanyi',categoryId:'perorangan',rank:1,unitId:'U03',state:'official'},
+    {id:'KARAOKE-JUARA-20261029-2',sportId:'menyanyi',categoryId:'perorangan',rank:2,unitId:'U04',state:'official'},
+    {id:'KARAOKE-JUARA-20261029-3',sportId:'menyanyi',categoryId:'perorangan',rank:3,unitId:'U03',state:'official'},
     {id:'VOLI-JUARA-20261029-1',sportId:'voli',categoryId:'beregu',rank:1,unitId:'U02',state:'official'},
     {id:'VOLI-JUARA-20261029-2',sportId:'voli',categoryId:'beregu',rank:2,unitId:'U03',state:'official'},
     {id:'VOLI-JUARA-20261029-3',sportId:'voli',categoryId:'beregu',rank:3,unitId:'U04',state:'official'},
@@ -308,7 +311,7 @@
     )).map(match => ({...match, parts: [...(match.parts || [])]}));
     const singing = root.HORI_SEED?.sports.find(sport => sport.id === 'menyanyi');
     const sports = payload.sports.map(sport => {
-      if (sport.id === 'menyanyi') return {...sport, name:'Lomba Karaoke', period:'27 & 29 Oktober · 15.30 WIB', rules:[...karaokeRules], notes:['Pendaftaran ditutup 20 Oktober 2026. Video karaoke dikirim paling lambat 26 Oktober 2026 pukul 15.00 WIB.']};
+      if (sport.id === 'menyanyi') return {...sport, name:'Lomba Karaoke', medalEnabled:true, medalConfirmed:true, period:'Selesai · 29 Oktober 2026', rules:[...karaokeRules], notes:['Hasil akhir: Juara I KPP Pangkalpinang, Juara II KPP Bangka, dan Juara III KPP Pangkalpinang.']};
       if (sport.id === 'tenis-lapangan') return {...sport, medalConfirmed:true, rules: [...tennisRules], notes: ['Juara tenis lapangan HORI 2026: KPP Bangka juara I, KPP Tanjung Pandan juara II, dan Kanwil DJPb juara III.', 'Format 8 game mengikuti hasil TM terbaru. Ketentuan lama 6/7 game dan tie-break tidak dijadikan acuan format pertandingan terbaru.']};
       if (sport.id === 'mlbb') return {...sport, medalEnabled:true, medalConfirmed:true, rules: [...sport.rules.slice(0,2), 'Playoff menggunakan sistem single elimination karena waktu pelaksanaan terbatas.', ...sport.rules.slice(3)], notes: [...(sport.notes || []), 'Playoff dilaksanakan Rabu–Jumat. Final dan perebutan juara III menggunakan wasit independen. Livestream dapat dilakukan dengan delay 10 detik; panitia membuka bantuan teknis OBS atau Streamlabs.']};
       if (sport.id === 'gobak-voli-pantai') return {...sport, medalEnabled:true, medalConfirmed:true, name:'Gobak Sodor', period:'24 Oktober · Pantai Temberan', rules: [...gobakRules], notes: ['Bersih-bersih pantai dimulai pukul 08.00 WIB dan lomba Gobak Sodor pukul 09.00 WIB.']};
